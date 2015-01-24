@@ -1,2 +1,117 @@
-<h1>hello world</h1>
-<p>My first website</p>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Minmin Jin</title>
+    <!--css-->
+    <link href="style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!--javascript-->
+    <script src="script.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<!--<div class="container">-->
+<nav id="nav">
+    <a href="index.html"><span id="logo">Minmin Jin</span></a>
+    <!--<a href="#menu" class="menu-link">Menu</a>-->
+    <ul>
+        <li><a href="#profile">About</a></li>
+        <li><a href="#gallery">Experiment</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+
+<section class="profile" id="profile">
+    <h2>About Me</h2>
+    <p>I am Minmin Jin, <br />
+        a <span style="color: #2BB5CF">graduate</span> student from <span style="color: #2BB5CF">Cornell University</span>. <br />
+        I am looking for a job as a <span style="color: #2BB5CF">software engineer</span>! <br />
+        <span style="color: #2BB5CF">Skills</span>: Java, Python, HTML, CSS, Javascript </p>
+</section>
+
+
+<section class="gallery" id="gallery">
+    <div class="gallery-list">
+        <h2>Experiments</h2>
+    <ul>
+        <li>
+            <a href="http://loistava.github.io/Drawing">
+                <div class="img" style="background-image: url(img/drawing.png)"></div>
+                <div class="caption">A drawing application</div>
+            </a>
+        </li>
+        <li>
+            <a href="http://loistava.github.io/iphone">
+                <div class="img" style="background-image: url(img/iphone.png)"></div>
+                <div class="caption">Iphone with HTML and CSS</div>
+            </a>
+        </li>
+        <li>
+            <a href="http://loistava.github.io/todos">
+                <div class="img" style="background-image: url(img/todolist.png)"></div>
+                <div class="caption">Todo List with AngularJS</div>
+            </a>
+        </li>
+        <li>
+            <a href="http://loistava.github.io/tetris">
+                <div class="img" style="background-image: url(img/tetris.png)"></div>
+                <div class="caption">Tetris with JavaScript</div>
+            </a>
+        </li>
+    </ul>
+    </div>
+</section>
+
+
+<section class="resume" id="resume">
+    <h2>More About Me</h2>
+    <div>I am Minmin Jin, a graduate student of Cornell University,ECE.
+        I have developed strong analytical and programming abilities
+        through coursework in computer science.
+        In addition, my hands-on experience in various
+        projects supports my qualifications of solving problems. <br><br>
+
+        With a great passion for data science and web applications,
+        I love try new technologies and new tools in related fields.
+        While not programming, I would like to listen to music, play games,
+        take photographs and etc. <br><br>
+
+        I am graduating May, 2015 and am now looking forward to working
+        with exciting opportunities. For more information,
+        please refer to my
+            <a href="resume.pdf"><span style="color: #2BB5CF">resume</span></a>.</div>
+</section>
+
+
+<section class="contact" id="contact">
+    <h2> Contact Me</h2>
+    <div class="contact-form">
+    <form action="contact.php" method="post">
+        Your Name<br>
+        <input type="text" name="cf_name" id="cf_name" required="true"><br />
+        Your E-mail<br>
+        <input type="text" name="cf_email" required="true"><br />
+        Message<br>
+        <textarea name="cf_message" cols="42" rows="9" required="true"></textarea><br />
+        <input type="submit" value="Send">
+    </form>
+    </div>
+</section>
+
+
+</body>
+
+</html>
