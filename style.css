@@ -140,16 +140,15 @@ nav ul li a:hover {
 .gallery ul{
     position: relative;
     list-style: none;
+    width: inherit;
+    display: inline;
 }
 .gallery ul li {
     float: left;
-    width: 190px;
-    height: 130px;
-    /*border: solid 1px rgba(65, 65, 65, 0.32);*/
+    width: 300px;
+    height: 200px;
     background-color: #2BB5CF;
-    margin-left: 75px;
-    margin-right: 75px;
-    margin-top: 30px;
+    margin: 20px 10px 20px 30px;
     position: relative;
     z-index: 1;
 }
@@ -179,10 +178,9 @@ nav ul li a:hover {
     transition: all 0.3s linear;
 }
 .img {
-    width: 180px;
-    height: 120px;
-    /*margin: 5px 5px 5px 5px;*/
-    margin: 4px auto;
+    width: 280px;
+    height: 180px;
+    margin: 10px;
     position: relative;
     /*border-radius: 15px;*/
 }
@@ -232,28 +230,49 @@ nav ul li a:hover {
 .contact {
     clear: both;
     width: 100%;
+    height: auto;
     background: #f8f9f9;
     padding-top: 20px;
-    padding-bottom: 50px;
+    padding-bottom: 200px;
+    margin-bottom: 0;
     display: block;
 }
-.contact-form {
-    width: 300px;
+.contact-list {
+    width: 720px;
     margin: 0 auto;
+    /*padding-bottom: 60px;*/
 }
-input  {
-    height: 30px;
-    width: 300px;
-    border: solid 1px  #7CD6E7;
+#mail {
+    width: 360px;
+    height: auto;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    color: #414141;
+    position: relative;
+    float: left;
 }
-textarea {
-    width: 300px;
-    border: solid 1px  #7CD6E7;
+#networks {
+    width: 360px;
+    height: auto;
+    position: relative;
+    float: left;
 }
-input[type='submit'] {
-    color: white;
-    background-color: #7CD6E7;
+.contact ul {
+    padding: 0;
+    margin-top: 10px;
 }
+.contact ul li {
+    display: inline;
+    list-style: none;
+    padding-top: 20px;
+    margin-right: 10px;
+}
+.icons {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+}
+
 
 
 
