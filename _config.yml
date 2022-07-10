@@ -13,15 +13,15 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Your title
+title: Bean Boat
 email: your-email@example.com
 name: Your name
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here.
-keywords: [Your keywords]
+description: >-
+  Something needs to happen!
+keywords: [tech]
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-domain: "example.com" # the domain name for your site, e.g. example.com
+domain: "jinmmin.github.io"
 language: en
 # Supported languages list:
 # en: English
@@ -53,7 +53,7 @@ sass:
 
 # Category settings
 jekyll-archives:
-  enabled: 
+  enabled:
     - categories
     - tags
   layout: archive
