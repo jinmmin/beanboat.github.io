@@ -2,16 +2,14 @@
 layout: post
 title:  "One month into Confluent"
 date:   2022-07-10
-description: What is the difference between various font formats?
-summary: What is the difference between various font formats?
-categories: [career]
-tags: [career]
+tags: ["career"]
+tag: career
 ---
 
 I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent's size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.
 
 ## Toolings
-Google has such a large range of products that most of the day-to-day tools we use are created within the company, such as video conferencing, collaborative documentations, and etc. The rest of the gaps are mostly filled by other large companies, such as SAP Concur. I did expect smaller companies to rely more on third party vendors. But the actual amount and variety were astonishing. Just to give some examples, they have apps for initialling, communicating, and tracking immigration stuff, for giving feedback, and for managing flags used in code.
+Google has such a large range of products that most of the day-to-day tools we use are created within the company, such as video conferencing, collaborative documentations, and etc. The rest of the gaps are mostly filled by other large companies, such as SAP Concur. I did expect smaller companies to rely more on third party vendors. But the actual amount and variety were astonishing. Just to give some examples, they have apps for initiating, communicating, and tracking immigration stuff, for giving feedback, and for managing flags used in code.
 
 It appears they picked the vendors who are also in the startup or small business world, possibly to support each other. These businesses along with Confluent could probably form an ecosystem where the cash flows.
 
