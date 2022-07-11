@@ -19,6 +19,8 @@ baseurl: ""
 
 highlighter: rouge
 
+analytics: G-MB5W8H6SHP  # the Google Analytics property ID, e.g. UA-XXXXX-Y
+
 exclude:
   - .jekyll-cache
 
