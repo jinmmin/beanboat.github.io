@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>One month into Confluent | Bean Boat</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="One month into Confluent" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world." />
+<meta property="og:description" content="I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world." />
+<link rel="canonical" href="http://localhost:4000/2022/07/10/one-month-into-confluent" />
+<meta property="og:url" content="http://localhost:4000/2022/07/10/one-month-into-confluent" />
+<meta property="og:site_name" content="Bean Boat" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-10T00:00:00-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="One month into Confluent" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-10T00:00:00-07:00","datePublished":"2022-07-10T00:00:00-07:00","description":"I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.","headline":"One month into Confluent","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2022/07/10/one-month-into-confluent"},"url":"http://localhost:4000/2022/07/10/one-month-into-confluent"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<meta name="keywords" content="" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/favicon.ico"/>
+<link rel="alternate" type="application/rss+xml" title="Bean Boat - Something needs to happen!" href="/feed.xml" />
+<link rel="stylesheet" type="text/css" href="/assets/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/highlight.css" />
+
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async ></script>
+
+
+<script src="/assets/script/jekyllpaper.js" async ></script>
+<script src="https://unpkg.com/mermaid@8.5.1/dist/mermaid.min.js" onload="javascript:loadMermaid();" async></script>
+
+
+</head>
+<body>
+  <div class="container-wrapper">
+    <header class="container-header">
+      <div class="header-info">
+  <span class="header-info-name">Bean Boat</span>
+  <span class="header-info-desc">Something needs to happen!</span>
+</div>
+<nav class="header-nav">
+  <ul class="header-main-nav">
+  
+    <li class="header-main-nav-item"><a href="/">Index</a></li>
+  
+    <li class="header-main-nav-item"><a href="/category">Categories</a></li>
+  
+    <li class="header-main-nav-item"><a href="/about">About</a></li>
+  
+  </ul>
+</nav>
+    </header>
+    <main class="container-main">
+      <article class="container-post">
+  <div class="post-title">
+    <h1>One month into Confluent</h1>
+  </div>
+  <div class="post-author">
+    <span>Your name</span>
+  </div>
+  <div class="post-content">
+    <p>I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.</p>
+
+<h2 id="toolings">Toolings</h2>
+<p>Google has such a large range of products that most of the day-to-day tools we use are created within the company, such as video conferencing, collaborative documentations, and etc. The rest of the gaps are mostly filled by other large companies, such as SAP Concur. I did expect smaller companies to rely more on third party vendors. But the actual amount and variety were astonishing. Just to give some examples, they have apps for initialling, communicating, and tracking immigration stuff, for giving feedback, and for managing flags used in code.</p>
+
+<p>It appears they picked the vendors who are also in the startup or small business world, possibly to support each other. These businesses along with Confluent could probably form an ecosystem where the cash flows.</p>
+
+<p>I have to mention that they have a central system <code class="language-plaintext highlighter-rouge">Okta</code> that is responsible for authentication to everything. It works smoothly and simplistically. Coming from a place where there are extremely strict security rules, as well as tools that enforce the rules, I felt the “freedom”.</p>
+
+<h2 id="operating-systems">Operating systems</h2>
+<p>I was thrilled when I got the IT questionnaire that asked to pick a laptop between MacBook pro 16” and Thinkpad P15 - those are very powerful and expensive machines. At a second thought, I was wondering if we would be developing on the laptop directly. And the answer is yes.</p>
+
+<p>The model used in many big IT companies is desktop / cloud instance + laptop, for performance and security reasons. So the laptops they provide are usually mid-tier, as they are often just for emails and browsing.</p>
+
+<p>I got the most powerful laptop ever in my life. It is also so heavy that it is not really portable. I installed Linux on it, and found out most software engineers in the company develop on Mac OS. Having been a Mac user for a long time, I got annoyed from time to time when it came to coding directly on Mac. The best alternative was to turn on the laptop and ssh-ing to a Linux box, which is also how I did my job all the time. So it was probably the biggest culture shock when joining Confluent.</p>
+
+<h2 id="development-environments">Development environments</h2>
+<p>I had a few PRs merged and had my hands dirty on so many different tools that I have read about or first heard of. I think the overall experience in Google is more fluent, mainly because of the mono repo. Confluent uses GitHub and microservice architecture, as a result, code is spread across multiple repos. Refactoring or code sharing becomes much harder than back in Google. I will talk more about it in a future post, as I make progress in first project, which is a service migration and involves large amount of refactoring.</p>
+
+<p>I am still exploring the “soft” side of the new company. Maybe I will share more later.</p>
+
+  </div>
+  <div class="post-info">
+    <div class="post-date">
+      Written on 2022-07-10, updated at 2022-07-10.
+    </div>
+    <div class="post-categories">
+      <span>Categories: </span>
+      
+      <a href="/category/career" class="post-category">career</a>
+      
+    </div>
+    <div class="post-tags">
+      <span>Tags: </span>
+      
+    </div>
+    <div class="post-tools">
+      
+      
+    </div>
+    
+  </div>
+</article>
+    </main>
+    <footer class="container-footer">
+      <div class="footer-copyright">
+  <span class="footer-copyright-text float-left">Copyright &copy; 2022. jinmmin.github.io.</span>
+  <!-- <span class="footer-copyright-text float-right">
+    Powered by <a href="https://jekyllrb.com/">Jekyll</a>, themed by <a href="https://github.com/ghosind/Jekyll-Paper">Jekyll-Paper</a>.
+  </span> -->
+</div>
+
+    </footer>
+  </div>
+</body>
+</html>

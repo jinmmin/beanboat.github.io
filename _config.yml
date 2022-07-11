@@ -34,7 +34,7 @@ language: en
 # zh-tw: 繁體中文 (Traditional Chinese)
 # ko : 한국어(Korean)
 
-analytics:   # the Google Analytics property ID, e.g. UA-XXXXX-Y
+analytics: G-MB5W8H6SHP  # the Google Analytics property ID, e.g. UA-XXXXX-Y
 
 paginate: 25
 paginate_path: "/page:num/"
