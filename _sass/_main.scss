@@ -16,7 +16,7 @@ html {
   opacity: 0.65;
   position: relative;
   border-radius: 5px;
-  height: 25px;
+  height: 22px;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -89,6 +89,14 @@ html[data-theme="light"] {
       transition: all 0.35s ease 0s;
     }
   }
+  #rss-icon {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    a {
+      color: #717883;
+    }
+  }
 }
 
 html[data-theme="dark"] {
@@ -145,6 +153,14 @@ html[data-theme="dark"] {
         -15px -15px 0 var(--theme-ui-colors-toggleIcon, #cbd5e0);
       transform: scale(1);
       transition: all 0.35s ease 0s;
+    }
+  }
+  #rss-icon {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    a {
+        color: #8e949c;
     }
   }
 }
