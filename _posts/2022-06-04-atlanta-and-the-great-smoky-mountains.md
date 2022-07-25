@@ -5,10 +5,10 @@ date:   2022-06-04
 tags: ["travel"]
 ---
 
-Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company. We chose it because of several reasons: we have never been to the southern states but heard South and North Carolina have nice views, the Great Smoky Mountains national park is one of top most visited national parks in the States, I had a long vacation so it was a good time to go to a faraway place.
+Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company. We chose it because of several reasons: we have never been to the southern states but heard South and North Carolina have nice views, the Great Smoky Mountains National Park is one of top most visited national parks in the States, I had a long vacation so it was a good time to go to a faraway place.
 
 ## Day 1 - Arriving in Atlanta
-We took a flight in the evening, slept at the plane, and arrived in Atlanta in the early morning. The first thing we did in Atlanta was to have a classic Southern breakfast. We were excited that the restaurant was owned by local Black people, though, we later realized that this is very common in Atlanta.
+We took a flight in the evening, slept in the plane, and arrived in Atlanta in the early morning. The first thing we did in Atlanta was to have a classic Southern breakfast. We were excited that the restaurant was owned by local Black people, though, we later realized that this is very common in Atlanta.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5388.JPG" />
 
 We then visited the Atlanta History Center to learn about the histories. The <a href="https://www.atlantahistorycenter.com/buildings-and-grounds/swan-house/">Swan House</a> in the center was a nice addition. It vividly exhibited the upper class life after the Civil War. Apart from that, we also visited <a href="https://www.atlantahistorycenter.com/exhibitions/cyclorama/">The Battle of Atlanta Cyclorama painting</a>, CNN, and Georgia Institute of Technology.
@@ -54,7 +54,7 @@ Coming down from the dome, we entered the trail head to the Andrew's Bald.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23584.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23599.JPG" />
 
-Before the nightfall, we explored the <b>Elkmont Historic District</b>. It was quite a disappointment TBH. The only thing left from the past was brick fireplaces that were not much different from the existing ones. The <b>Appalachian Clubhouse</b> were residential houses remade to exhibit the original looks of the vacation village. We thought it might be a better experience to make them usable rentable to tourists.
+Before the nightfall, we explored the <b>Elkmont Historic District</b>. It was quite a disappointment TBH. The only thing left from the past was stone fireplaces that were not much different from the existing ones. The <b>Appalachian Clubhouse</b> were residential houses remade to exhibit the original looks of the vacation village. We thought it might be a better experience to make them usable rentable to tourists.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23621.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23613.JPG" />
 
@@ -66,7 +66,7 @@ The next day was a full day hike in <a href="https://www.alltrails.com/trail/us/
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23641.JPG" />
 In the midway, there was a steep segment with stairs. A "grandpa" on the way described it as a "stairway to heaven".
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23634.JPG" />
-Finally, we arrived at the top of Mount LeConte, where there was a working lodge. A guy asked us to take of photo of him in front of the LeConte Lodge dining room, and told us that he did this hike every year on his birthday.
+Finally, we arrived at the top of Mount LeConte, where there was a working lodge. A guy asked us to take of photo of him in front of the LeConte Lodge dining room, which has the actual date on it, so he could prove that he did this hike every year on his birthday.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23659.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23661.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23697.JPG" />
@@ -74,14 +74,14 @@ Finally, we arrived at the top of Mount LeConte, where there was a working lodge
 We did a horseback riding in the evening. We were the last group and the group was only the guide and us.
 
 ## Day 7, 8 - Cades Cove
-Our final stay in the national park was the Cades Cove, which was also the busiest district in the park. It is a 10-mile loop with multiple view points. We went there at the right time and was lucky to see mother bears leading two or three curbs several times. Because of that, driving was painfully slow.
+Our final stay in the national park was the Cades Cove, which was also the busiest district in the park. It is a 10-mile loop with multiple view points. We went there at the right time and were lucky to see mother bears leading two or three cubs several times. Because of that, driving was painfully slow.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23742.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23730.JPG" />
 
 We biked the loop with rental bikes the next day, and stopped in churches, local ancient houses, and <b>Abrams Falls</b>.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23765.JPG" />
 
-It was so hot during that two days that we had all the ice creams for the whole year.
+It was so hot during that two days that we had all the ice cream for the whole year.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5479.JPG" />
 
 ## Day 9, 10 - Deep Creek
