@@ -48,14 +48,14 @@ We had the most first-time animal encounters in Yellowstone and Grand Teton. We 
 
 Yellowstone has a lot of stories about grizzly bears. Whether they are true or not, grizzly bears do exist here and they are among the most lethal creatures. We carried bear spray with us on all wild trails.
 
-<b>Bison</b>s are easy to well-populated in Yellowstone. They tend to appear in the early morning and in the evenings. We met one very closely when having food in one of the picnic areas after a hike. It came suddenly and slowly walked across our table. We stayed quiet to not provoke it. All of it happened like a dream.
+<b>Bison</b>s are easy to spot in Yellowstone. They tend to appear in the early morning and in the evenings. We met one very closely when having food in one of the picnic areas after a hike. It came suddenly and slowly walked by our table. We stayed quiet to not provoke it. All of it happened like a dream.
 <img src="/media/yellowstone-grand-teton/IMGR20953.JPG" />
 
-<b>Elk</b> jams was frequent as well. But it was in the Mammoth visitor center that we got the best view. Elks like to visit there in the evenings. The first time we went to that visitor center, we noticed a lot of poops left on the grass. We got to know where they were from after seeing elk herds filling the area in one evening. They also went all the way to Gardiner, a small town in the north of the Mammoth visitor center. Trees and flowers there were fenced to protect them from the herbivores.
+<b>Elk</b> jams was frequent as well. But it was in the Mammoth visitor center that we got the best view. Elks like to visit there in the evenings. The first time we went to that visitor center, we noticed a lot of poop left on the grass. We got to know where they were from after seeing elk herds filling the area in one evening. They also went all the way to Gardiner, a small town in the north of the Mammoth visitor center. Trees and flowers there were fenced to protect them from the herbivores.
 <img src="/media/yellowstone-grand-teton/IMGR21060.JPG" />
 <img src="/media/yellowstone-grand-teton/IMGR21280.JPG" />
 
-Small mammals like <b>chipmunk</b>s have a high population here. Some were very brave and lived around the geysers. We also saw a marmot from our car when driving up to a peak.  In the <b>Cascade Canyon trial</b>, we frightened a rat like animals, possibly a pika, .
+Small mammals like <b>chipmunk</b>s have a high population here. Some were very brave and lived around the geysers. We also saw a marmot from our car when driving up to a peak.  In the <b>Cascade Canyon trial</b>, we frightened a rat like animals, possibly a pika.
 <img src="/media/yellowstone-grand-teton/IMGR21009.JPG" />
 
 We met this <b>black bear</b> during a hike in Grand Teton. With so many people in the hike, nobody was scared except the bear.
@@ -64,7 +64,7 @@ We met this <b>black bear</b> during a hike in Grand Teton. With so many people 
 Another hike encounter. This time it was a <b>moose</b>. It was chewing leaves at the same spot for hours.
 <img src="/media/yellowstone-grand-teton/IMGR21501.JPG" />
 
-A bird in the bushes and eagles in the tree tops.
+A <a href="https://en.wikipedia.org/wiki/Rock_ptarmigan"><b>ptarmigan</b></a> in the bushes and eagles in the tree tops.
 <img src="/media/yellowstone-grand-teton/IMGR21578.JPG" />
 <img src="/media/yellowstone-grand-teton/IMGR21696.JPG" />
 <img src="/media/yellowstone-grand-teton/IMGR21699.JPG" />
@@ -86,7 +86,7 @@ The Madison Campground is next to a meadow with a creek running across. The view
 In Grand Teton, we stayed in the <a href="https://www.gtlc.com/camping/headwaters-campground-at-flagg-ranch">Headwaters Campground at Flagg Ranch</a>.
 <img src="/media/yellowstone-grand-teton/headwaters_campground.JPG" />
 
-We were not able to get all nights in the tent, so for the last night in Grand Teton, we lived in a cabin, which provided bare minimal furniture. It was not a bad choice, considering that the nights in the area could be blew freezing point.
+We were not able to get all nights in the tent, so for the last night in Grand Teton, we lived in a cabin, which provided bare minimal furniture. It was not a bad choice, considering that the nights in the area could be below freezing point.
 <img src="/media/yellowstone-grand-teton/IMG_5079.JPG" />
 <img src="/media/yellowstone-grand-teton/IMGR21774.JPG" />
 
@@ -115,7 +115,7 @@ Waterfall in the Canyon
 <b>Cascade Canyon</b>
 <img src="/media/yellowstone-grand-teton/IMGR21520.JPG" />
 
-Our first time horseback ride.
+Our first time horseback riding.
 <img src="/media/yellowstone-grand-teton/IMG_4948.JPG" />
 
 Yellowstone used to have a primitive way of crossing the rivers by using a line. The old lady that did the floating with us told us that the facility was broken by a group of boy scouts in a summer.
