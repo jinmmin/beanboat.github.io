@@ -1,47 +1,26 @@
----
-layout: compress
----
-
 <!DOCTYPE html>
-<html lang="en">
-{% include head.html %}
+<html>
 
-<body>
-  <main role="main">
-    {% include anchor_headings.html html=content anchorBody="#" %}
-  </main>
+  {% include head.html %}
 
-<script type="text/javascript">
-  function setTheme(theme) {
-    if (theme === "dark") {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      window.localStorage.setItem('theme', 'dark');
-      document.getElementById("theme-toggle").classList.add('sun');
-      document.getElementById("theme-toggle").classList.remove('moon');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      window.localStorage.setItem('theme', 'light');
-      document.getElementById("theme-toggle").classList.add('moon');
-      document.getElementById("theme-toggle").classList.remove('sun');
-    }
-  }
+  <body>
 
-  let theme = localStorage.getItem('theme');
+    {% include header.html %}
 
-  theme = theme || (window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' : 'light');
+        {{ content }}
 
-  setTheme(theme);
-
-  function modeSwitcher() {
-    let currentMode = document.documentElement.getAttribute('data-theme');
-
-    if (currentMode === "dark") {
-      setTheme('light');
-    } else {
-      setTheme('dark');
-    }
-  }
-</script>
-</body>
+    {% include footer.html %}
+    {% include backToTop.html %}
+    <script src="{{ " /js/main.js " | prepend: site.baseurl }}" charset="utf-8"></script>
+    <script src="{{ " /js/smooth-scroll.min.js " | prepend: site.baseurl }}" charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src="{{ " /js/scroll.min.js " | prepend: site.baseurl }}" charset="utf-8"></script> -->
+  </body>
 
 </html>

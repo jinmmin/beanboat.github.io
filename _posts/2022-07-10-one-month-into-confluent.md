@@ -3,7 +3,10 @@ layout: post
 title:  "One month into Confluent"
 date:   2022-07-10
 tags: ["career"]
+excerpt: I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent's size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.
 ---
+* content
+{:toc}
 
 I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent's size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.
 
@@ -12,7 +15,7 @@ Google has such a large range of products that most of the day-to-day tools we u
 
 It appears they picked the vendors who are also in the startup or small business world, possibly to support each other. These businesses along with Confluent could probably form an ecosystem where the cash flows.
 
-I have to mention that they have a central system `Okta` that is responsible for authentication to everything. It works smoothly and simplistically. Coming from a place where there are extremely strict security rules, as well as tools that enforce the rules, I felt the "freedom".
+I have to mention that they have a central system <b>Okta</b> that is responsible for authentication to everything. It works smoothly and simplistically. Coming from a place where there are extremely strict security rules, as well as tools that enforce the rules, I felt the "freedom".
 
 ## Operating systems
 I was thrilled when I got the IT questionnaire that asked to pick a laptop between MacBook pro 16" and Thinkpad P15 - those are very powerful and expensive machines. At a second thought, I was wondering if we would be developing on the laptop directly. And the answer is yes.

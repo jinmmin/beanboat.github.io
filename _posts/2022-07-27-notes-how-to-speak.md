@@ -3,7 +3,10 @@ layout: post
 title:  "[notes] How to Speak"
 date:   2022-07-27
 tags: ["notes", "communication"]
+excerpt: Notes about the talk.
 ---
+* content
+{:toc}
 
 # Intro
 Patrick Winston's How to Speak talk has been an MIT tradition for over 40 years. The talk is intended to improve your speaking ability in critical situations by teaching you a few heuristic rules. The talk is available on <a href="https://www.youtube.com/watch?v=Unzc731iCUY">youtube</a>.

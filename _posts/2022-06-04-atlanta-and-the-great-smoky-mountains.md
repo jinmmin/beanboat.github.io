@@ -3,7 +3,10 @@ layout: post
 title:  "Atlanta and the Great Smoky Mountains"
 date:   2022-06-04
 tags: ["travel"]
+excerpt: Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company.
 ---
+* content
+{:toc}
 
 Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company. We chose it because of several reasons: we have never been to the southern states but heard South and North Carolina have nice views, the Great Smoky Mountains National Park is one of top most visited national parks in the States, I had a long vacation so it was a good time to go to a faraway place.
 
