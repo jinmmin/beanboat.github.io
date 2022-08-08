@@ -14,7 +14,7 @@ Zoltan and I went to the Great Smoky Mountains in the end of May, to take some t
 We took a flight in the evening, slept in the plane, and arrived in Atlanta in the early morning. The first thing we did in Atlanta was to have a classic Southern breakfast. We were excited that the restaurant was owned by local Black people, though, we later realized that this is very common in Atlanta.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5388.JPG" />
 
-We then visited the Atlanta History Center to learn about the histories. The <a href="https://www.atlantahistorycenter.com/buildings-and-grounds/swan-house/">Swan House</a> in the center was a nice addition. It vividly exhibited the upper class life after the Civil War. Apart from that, we also visited <a href="https://www.atlantahistorycenter.com/exhibitions/cyclorama/">The Battle of Atlanta Cyclorama painting</a>, CNN, and Georgia Institute of Technology.
+We then visited the Atlanta History Center to learn about the histories. The [Swan House]("https://www.atlantahistorycenter.com/buildings-and-grounds/swan-house/") in the center was a nice addition. It vividly exhibited the upper class life after the Civil War. Apart from that, we also visited [The Battle of Atlanta Cyclorama painting]("https://www.atlantahistorycenter.com/exhibitions/cyclorama/"), CNN, and Georgia Institute of Technology.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5406.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23429.JPG" />
 
@@ -35,7 +35,7 @@ Since it was still bright, we went down the Oconaluftee River Trail. We walked a
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23490.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5442.JPG" />
 
-We reserved three campsites close to the three visitor centers in the park. The first two nights was in the <a href="https://www.recreation.gov/camping/campgrounds/232486">Smokemont campground</a>, next to the Oconaluftee visitor center.
+We reserved three campsites close to the three visitor centers in the park. The first two nights was in the [Smokemont campground]("https://www.recreation.gov/camping/campgrounds/232486"), next to the Oconaluftee visitor center.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23493.JPG" />
 
 Next day was a day consisting of small hikes.
@@ -43,14 +43,14 @@ Next day was a day consisting of small hikes.
 Morning hike in the <b>Mingo Falls</b>.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5445.JPG" />
 
-Then a longer hike in <b>Newfound gap</b>, which is part of the <a href="https://en.wikipedia.org/wiki/Appalachian_Trail"><b>Appalachian trail</b></a>. We met another deer in the trail, next to a primitive campsite.
+Then a longer hike in <b>Newfound gap</b>, which is part of the [<b>Appalachian trail</b>]("https://en.wikipedia.org/wiki/Appalachian_Trail"). We met another deer in the trail, next to a primitive campsite.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23523.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23541.JPG" />
 
 ## Day 5, 6 - Sugarlands
 We moved on to the Sugarlands district, and continued doing more hikes there.
 
-The first attraction there we visited was the <a href="https://www.nps.gov/grsm/planyourvisit/clingmansdome.htm"><b>Clingmans Dome</b></a>, which was the highest point in the Great Smoky Mountains. The sign says that hikers doing the <a href="https://en.wikipedia.org/wiki/Appalachian_Trail">Appalachian trail</a> often stop by here to enjoy the views.
+The first attraction there we visited was the [<b>Clingmans Dome</b>]("https://www.nps.gov/grsm/planyourvisit/clingmansdome.htm"), which was the highest point in the Great Smoky Mountains. The sign says that hikers doing the [Appalachian trail]("https://en.wikipedia.org/wiki/Appalachian_Trail") often stop by here to enjoy the views.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23563.JPG" />
 
 Coming down from the dome, we entered the trail head to the Andrew's Bald.
@@ -61,10 +61,10 @@ Before the nightfall, we explored the <b>Elkmont Historic District</b>. It was q
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23621.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23613.JPG" />
 
-That night, we slept in the <a href="https://www.recreation.gov/camping/campgrounds/232487"><b>Elkmont Campground</b></a>.
+That night, we slept in the [<b>Elkmont Campground</b>]("https://www.recreation.gov/camping/campgrounds/232487").
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23610.JPG" />
 
-The next day was a full day hike in <a href="https://www.alltrails.com/trail/us/tennessee/alum-cave-trail-to-mount-leconte"><b>Alum Cave Trail</b></a> all the way to the <b>Mount LeConte</b>. This is one of best trails I have hiked. In the beginning part, we were walking along a creek. Then came the forests.
+The next day was a full day hike in [<b>Alum Cave Trail</b>]("https://www.alltrails.com/trail/us/tennessee/alum-cave-trail-to-mount-leconte") all the way to the <b>Mount LeConte</b>. This is one of best trails I have hiked. In the beginning part, we were walking along a creek. Then came the forests.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23629.JPG" />
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23641.JPG" />
 In the midway, there was a steep segment with stairs. A "grandpa" on the way described it as a "stairway to heaven".
@@ -91,10 +91,10 @@ It was so hot during that two days that we had all the ice cream for the whole y
 Leaving the national park, we went on the way to the <b>Fontana Dam</b>. Because of road constructions, we had to go around the mountains to get there. The damn was gigantic and grand. There were very few tourists and the visitor center seemed to have been closed for a while.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23798.JPG" />
 
-After another long drive, we arrived at the last campsite <a href="https://www.deepcreekcamping.com/index.html">Deep Creek Campground</a>. We learned playing tetherball from a little kid. We had our first watermelon this year.
+After another long drive, we arrived at the last campsite [Deep Creek Campground]("https://www.deepcreekcamping.com/index.html"). We learned playing tetherball from a little kid. We had our first watermelon this year.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMG_5502.JPG" />
 
-The next day we went for <a href="https://en.wikipedia.org/wiki/Tubing_(recreation)"><b>tubing</b></a>, a new water activity we were eager to try, especially during the hot days in Cades Cove. There is a fast-running creek across the Great Smoky Mountains. It goes from the mountains and passes the campground. We rented tubes from the store, and first tried the creek segment next to the campground. The creek was much faster than it looked like, and the water was still cold despite the high temperature in the air. It was all natural but as much fun as water rafting in the Disney water park. In the end of the route, there was a cable across the creek and we used it to get back to the land.
+The next day we went for [<b>tubing</b>]("https://en.wikipedia.org/wiki/Tubing_(recreation)"), a new water activity we were eager to try, especially during the hot days in Cades Cove. There is a fast-running creek across the Great Smoky Mountains. It goes from the mountains and passes the campground. We rented tubes from the store, and first tried the creek segment next to the campground. The creek was much faster than it looked like, and the water was still cold despite the high temperature in the air. It was all natural but as much fun as water rafting in the Disney water park. In the end of the route, there was a cable across the creek and we used it to get back to the land.
 
 After several rounds, we moved up to the national park route. We started somewhere above the <b>Tome Branch Falls</b>, passed many houses, and reached the campground. It was an adventurous journey, as the officially approved route ended in the parking lot of the national park, but we kept going beyond that line and was not sure if we would be able to reach our destination.
 <img src="/media/atlanta-and-the-great-smoky-mountains/IMGR23804.JPG" />

@@ -9,7 +9,7 @@ excerpt: Notes about the talk.
 {:toc}
 
 # Intro
-Patrick Winston's How to Speak talk has been an MIT tradition for over 40 years. The talk is intended to improve your speaking ability in critical situations by teaching you a few heuristic rules. The talk is available on <a href="https://www.youtube.com/watch?v=Unzc731iCUY">youtube</a>.
+Patrick Winston's How to Speak talk has been an MIT tradition for over 40 years. The talk is intended to improve your speaking ability in critical situations by teaching you a few heuristic rules. The talk is available on [youtube]("https://www.youtube.com/watch?v=Unzc731iCUY").
 
 # How to Start
 The best way to start a talk is with an empowerment promise, telling people what they will know by the end of the talk that they do not at the beginning of the talk.
