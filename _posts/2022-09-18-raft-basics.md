@@ -196,7 +196,7 @@ Invoked by leader to send chunks of a snapshot to a follower. Leaders always sen
   * done: true if this is the last chunk
 * **Results**
   * term: currentTerm, for leader to update itself
-**Receiver implementation**
+* **Receiver implementation**
   1. Reply immediately if term < currentTerm
   2. Create new snapshot file if first chunk (offset is 0)
   3. Write data into snapshot file at given offset
