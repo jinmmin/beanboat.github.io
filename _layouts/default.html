@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="{{ site.language }}">
-<head>
-  {% include head.html %}
-</head>
-<body>
-  <div class="container-wrapper">
-    <header class="container-header">
-      {% include header.html %}
-    </header>
-    <main class="container-main">
-      {{content}}
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include views/header.html -%}
+
+    {%- include views/banner.html -%}
+
+    {%- include extensions/hashlocate.html -%}
+
+    {%- include extensions/theme-toggle.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
     </main>
-    <footer class="container-footer">
-      {% include footer.html %}
-    </footer>
-  </div>
-</body>
+
+    {%- include views/footer.html -%}
+
+  </body>
 </html>

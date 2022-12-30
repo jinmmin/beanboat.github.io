@@ -1,47 +1,77 @@
 ---
-layout: default
+layout: framework
+banner:
+banner_html: post-header.html
+hidden: []
+sidebar:
+  - article-menu
 ---
 
-<article class="container-post">
-  <div class="post-title">
-    <h1>{{ page.title }}</h1>
-  </div>
-  <div class="post-author">
-    <span>{{ site.name }}</span>
-  </div>
-  <div class="post-content">
-    {{ content }}
-  </div>
-  <div class="post-info">
-    <div class="post-date">
-      {{ site.data.lang[site.language].post_write_date }}{{ page.date | date: "%Y-%m-%d" }}{% if page.last_modified_at %}, {{ site.data.lang[site.language].post_update_date }}{{ page.last_modified_at | date: "%Y-%m-%d" }}{% endif %}.
+<div class="post">
+  <section>
+
+    {%- assign name = 'banner' -%}
+    {%- include functions.html func='get_value' -%}
+    {%- assign banner = return -%}
+
+    {%- assign name = 'hidden' -%}
+    {%- include functions.html func='get_value' -%}
+    {%- assign hidden = return -%}
+
+    {%- assign result = hidden | where_exp: "item", "item == 'header'" -%}
+    {%- if banner == nil and result.size == 0 -%}
+    {%- include views/post-header.html -%}
+    {%- endif -%}
+
+    {%- include views/article.html -%}
+
+    {%- assign result = hidden | where_exp: "item", "item == 'navigator'" -%}
+    {%- if result.size == 0 -%}
+    <div class="post-nav">
+      {%- if page.previous -%}
+        <a class="previous" href="{{ page.previous.url | relative_url }}" title="{{
+          page.previous.title | escape }}">{{ page.previous.title | escape | truncatewords: 6 }}</a>
+      {%- else -%}
+      <span></span>
+      {%- endif -%}
+
+      {%- if page.next -%}
+        <a class="next" href="{{ page.next.url | relative_url }}" title="{{ page.next.title | escape }}">{{ page.next.title | escape | truncatewords: 6 }}</a>
+      {%- else -%}
+      <span></span>
+      {%- endif -%}
     </div>
-    <div class="post-categories">
-      <span>{{ site.data.lang[site.language].post_categories }}</span>
-      {% for category in page.categories %}
-      <a href="{{ site.baseurl }}/category/{{ category | slugify }}" class="post-category">{{ category }}</a>
-      {% endfor %}
+    {%- endif -%}
+
+    <!-- {%- assign result = hidden | where_exp: "item", "item == 'related_posts'" -%} -->
+    <!-- {%- if result.size == 0 -%} -->
+    <!-- <div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        {% assign posts = site[page.collection] | sample:4 %}
+        {%- for post in posts -%}
+        <li><a class="post-link" href="{{post.url | relative_url}}" title="{{ page.next.title | escape }}">{{ post.title | escape | truncatewords: 12 }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </div> -->
+    <!-- {%- endif -%} -->
+
+    {%- assign result = hidden | where_exp: "item", "item == 'comments'" -%}
+    {%- if result.size == 0 -%}
+    <div class="post-comments">
+      {%- if page.comments != false -%}
+
+      {%- if site.disqus.shortname -%}
+      {%- include extensions/comments/disqus.html -%}
+      {%- endif -%}
+
+      {%- if site.gitment.username -%}
+      {%- include extensions/comments/gitment.html -%}
+      {%- endif -%}
+
+      {%- endif -%}
     </div>
-    <div class="post-tags">
-      <span>{{ site.data.lang[site.language].post_tags }}</span>
-      {% for tag in page.tags %}
-      <a href="{{ site.baseurl }}/tag/{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
-      {% endfor %}
-    </div>
-    <div class="post-tools">
-      {% if page.next %}
-      <div>
-        <span>{{ site.data.lang[site.language].post_next }}</span><a href="{{ page.next.url }}">{{ page.next.title }}</a>
-      </div>
-      {% endif %}
-      {% if page.previous %}
-      <div>
-        <span>{{ site.data.lang[site.language].post_previous }}</span><a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
-      </div>
-      {% endif %}
-    </div>
-    {% if site.comments %}
-      {% include comments.html %}
-    {% endif %}
-  </div>
-</article>
+    {%- endif -%}
+
+  </section>
+</div>
