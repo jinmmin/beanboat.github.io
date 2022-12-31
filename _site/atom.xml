@@ -1,4 +1,267 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-12-30T08:28:39-08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Bean Boat</title><subtitle>Bean Boat!</subtitle><author><name>Minmin Jin</name></author><entry><title type="html">Building a Miniature Study room</title><link href="http://localhost:4000/2022/12/04/building-a-miniature-study-room.html" rel="alternate" type="text/html" title="Building a Miniature Study room" /><published>2022-12-04T00:00:00-08:00</published><updated>2022-12-04T00:00:00-08:00</updated><id>http://localhost:4000/2022/12/04/building-a-miniature-study-room</id><content type="html" xml:base="http://localhost:4000/2022/12/04/building-a-miniature-study-room.html"><![CDATA[<p>I bought a <a href="https://www.amazon.com/gp/product/B06X3VNJBZ/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;th=1">DIY set</a> for Zoltan several years ago. But because of its complexity and the time it would take to do it, he never had the chance to start on it. On a cold winter night, I decided to try it since I have never done this kind of modeling before. It turned out to a big time sucker. I finished on and off after two weeks, totaling two full days on it.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-12-30T21:08:17-08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Bean Boat</title><subtitle>Bean Boat!</subtitle><author><name>Minmin Jin</name></author><entry><title type="html">Hash Schemes and Extendible Hashing</title><link href="http://localhost:4000/2022/12/30/extendible-hashing.html" rel="alternate" type="text/html" title="Hash Schemes and Extendible Hashing" /><published>2022-12-30T00:00:00-08:00</published><updated>2022-12-30T00:00:00-08:00</updated><id>http://localhost:4000/2022/12/30/extendible-hashing</id><content type="html" xml:base="http://localhost:4000/2022/12/30/extendible-hashing.html"><![CDATA[<p>Hash table is a common data structure that uses a <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a> to compute an index into an array of buckets, from which the desired the value can be found<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. When designing a hash table, below decisions need to be considered:</p>
+<ul>
+  <li><strong>Hash Function</strong>: used to map a large key space into a smaller domain. Trade-offs need to be made between the compute speed and the collision rate. For example, cryptographic hash functions have very low collision rate but is usually slow.</li>
+  <li><strong>Hashing Scheme</strong>: used to handle key collisions after hashing. Common approaches include having a large hash table, or dynamically shuffling the keys.</li>
+</ul>
+
+<p>This post goes through some common hashing schemes, and uses Extendible Hashing as an example for more detailed explanation and implementation.</p>
+
+<h3 id="linear-probe-hashing">Linear Probe Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Linear_probing">Linear Probing</a> is one form of <a href="https://en.wikipedia.org/wiki/Open_addressing">open addressing</a>. It resolves collisions by linearly searching for the next free slot in the table. Linear probing is to unevenly distributed hash values, so a high-quality hash function such as <a href="https://en.wikipedia.org/wiki/MurmurHash">MurmurHash</a> is necessary to achieve good performance.</p>
+
+<h3 id="robin-hood-hashing">Robin Hood Hashing</h3>
+<p>Robin Hood Hashing is a variant of linear probe hashing. When new keys are inserted, old keys may be shifted if the new key is farther away from its optimal position than the old key, so as to keep all keys reasonably close to the slot they originally hash to.</p>
+
+<h3 id="cuckoo-hashing">Cuckoo Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Cuckoo_hashing">Cuckoo Hashing</a> handles collisions by pushing existing keys to another location in the table, resembling the way a cuckoo chick pushes other eggs out of the nest. Cuckoo hashing is commonly implemented using two hash functions and two arrays.</p>
+
+<h4 id="insert">Insert</h4>
+<p>A new element is always inserted in the first table. If a collision occurs, the existing key is moved to the second table. If that causes another collision, the second existing key is moved to the first table. This continues until all collisions are handled. The performance degrades with the increasing load factor.</p>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSPlW7_hIwrTd2dw9mDLtjWfZI_-SD9JTeAr-GyiaqGmw3G10mC3jXIDxyaSDuBcqQIe8unOH_mOwQm/embed?start=true&amp;loop=true&amp;delayms=1000" frameborder="0" width="600" height="366" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+<h4 id="lookup">Lookup</h4>
+<p>If a key exists, it will be stored in either the first array or the second one. So with at most two lookups, we can figure out if the key exists or not.</p>
+
+<h3 id="chained-hashing">Chained Hashing</h3>
+<p>Chained Hashing maintains a linked list of buckets for each slot in the hash table, and puts all elements with the same hash key into the same bucket. To determine whether a key exists, it retrieves the bucket and do a linear scan.</p>
+
+<h3 id="extendible-hashing">Extendible Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Extendible_hashing">Extendible Hashing</a> is a variant of chained hashing. Instead of letting the linked list grow infinitely, it splits the buckets.</p>
+
+<p>Frequently used terms in Extendible Hashing:</p>
+<ul>
+  <li><strong>Directory</strong>: used to store the addresses of buckets in pointers. The hash function returns the directory id that points to the bucket for the hash key. The number of directories increases always by doubling.</li>
+  <li><strong>Bucket</strong>: used to store actual data. More than one pointers in the directory may point to one bucket. Buckets have a predefined capacity, and when the number of elements in a bucket exceeds the capacity, the bucket overflows and will need a split.</li>
+  <li><strong>Global Depth</strong>: associated with directories. Denotes the number of bits to use in the hash function result for categorizing the bucket. It is more efficient to use the <a href="https://en.wikipedia.org/wiki/Bit_numbering#Bit_significance_and_indexing">LSB</a> when expanding the table, as the entire directory can be copied as one block. <code class="language-plaintext highlighter-rouge">Number of Directories = 2^Global Depth</code>. Global Depth increments when the number of directory expands.</li>
+  <li><strong>Local Depth</strong>:  associated with buckets. Used to decide the action to be performed in case of bucket overflow. Local depth increments when bucket splits. Local Depth is always less than or equal to the Global Depth.</li>
+</ul>
+
+<h4 id="insert-1">Insert</h4>
+<p>Below are steps to insert elements</p>
+<ol>
+  <li>Convert the key to binary format using an appropriate hash function.</li>
+  <li>Identify the directory. The directory id is the GlobalDepth number of <a href="https://en.wikipedia.org/wiki/Bit_numbering#Bit_significance_and_indexing">LSB</a>s in the binary number. E.g. the binary obtained is <code class="language-plaintext highlighter-rouge">11001</code> and the GlobalDepth is 3, the directory id is 3 LSBs of 11001 viz. 001.</li>
+  <li>Insert and check overflow. If bucket overflows,
+    <ol>
+      <li>Local Depth &lt; Global Depth: split the bucket, increment the local depth by 1, assign the pointer to the new bucket, redistribute the elements in the existing bucket.</li>
+      <li>Local Depth == Global Depth: expand the directory first, and do the bucket split.</li>
+    </ol>
+  </li>
+</ol>
+
+<p>Below example shows the insert process.</p>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRm51fSgFRiYLW-fefSPXLFuUGDQnt8i0hXltPHdWJUhX__IPR1V6JEjcmRNg3kmTb4Rp011Om0SRk7/embed?start=true&amp;loop=true&amp;delayms=1000" frameborder="0" width="600" height="366" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+<h4 id="implementation">Implementation</h4>
+
+<p>An example implementation based on <a href="https://15445.courses.cs.cmu.edu/fall2022/">CMU 15-445/645 Database Systems</a>.</p>
+
+<details><summary>Bucket</summary>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">K</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">V</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">Bucket</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">Bucket</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">size_</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">depth_</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="k">auto</span> <span class="n">GetDepth</span><span class="p">()</span> <span class="k">const</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">depth_</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">IncrementDepth</span><span class="p">()</span> <span class="p">{</span> <span class="n">depth_</span><span class="o">++</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">GetItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span> <span class="p">{</span> <span class="k">return</span> <span class="n">list_</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Find</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">item</span> <span class="o">:</span> <span class="n">list_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">first</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Remove</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">list_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="n">list_</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+        <span class="n">list_</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Insert</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">list_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">list_</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">size_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">list_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+ <span class="nl">private:</span>
+  <span class="kt">size_t</span> <span class="n">size_</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">depth_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span> <span class="n">list_</span><span class="p">;</span>
+<span class="p">};</span></code></pre></figure>
+
+</details>
+
+<details><summary>ExtendibleHashTable</summary>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">K</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">V</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">ExtendibleHashTable</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">explicit</span> <span class="n">ExtendibleHashTable</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">bucket_size</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">global_depth_</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">bucket_size_</span><span class="p">(</span><span class="n">bucket_size</span><span class="p">),</span> <span class="n">num_buckets_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="k">auto</span> <span class="n">GetGlobalDepth</span><span class="p">()</span> <span class="k">const</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">global_depth_</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">GetLocalDepth</span><span class="p">(</span><span class="kt">int</span> <span class="n">dir_index</span><span class="p">)</span> <span class="k">const</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">dir_</span><span class="p">[</span><span class="n">dir_index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetDepth</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Find</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="n">IndexOf</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">dir_</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">GetGlobalDepth</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dir_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">bucket_size_</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+      <span class="n">dir_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">bucket_size_</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+      <span class="n">global_depth_</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="n">IndexOf</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Bucket overflows.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="n">GetGlobalDepth</span><span class="p">())</span> <span class="p">{</span>
+      <span class="c1">// Expand the directory by copying the existing directory to the end.</span>
+      <span class="kt">size_t</span> <span class="n">current_size</span> <span class="o">=</span> <span class="n">dir_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">current_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">dir_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dir_</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+      <span class="p">}</span>
+      <span class="n">global_depth_</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">IncrementDepth</span><span class="p">();</span>
+
+    <span class="c1">// Split the bucket</span>
+    <span class="kt">size_t</span> <span class="n">aindex</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">global_depth_</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">global_depth_</span><span class="p">);</span>
+    <span class="c1">// Make the other directory point to a new bucket</span>
+    <span class="n">dir_</span><span class="p">[</span><span class="n">aindex</span><span class="p">]</span> <span class="o">=</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">bucket_size_</span><span class="p">,</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetDepth</span><span class="p">());</span>
+    <span class="n">bucket_size_</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="c1">// Redistribute the existing bucket</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">begin</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span> <span class="o">!=</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Move to the new bucket and remove from the existing bucket</span>
+        <span class="n">dir_</span><span class="p">[</span><span class="n">aindex</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">,</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="o">--</span><span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+          <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">pop_back</span><span class="p">();</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
+        <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">pop_back</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">Insert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Remove</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="n">IndexOf</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">dir_</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+  <span class="p">}</span>
+
+ <span class="nl">private:</span>
+  <span class="k">auto</span> <span class="n">IndexOf</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">size_t</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">global_depth_</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span><span class="n">K</span><span class="o">&gt;</span><span class="p">()(</span><span class="n">key</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">global_depth_</span><span class="p">;</span>    <span class="c1">// The global depth of the directory</span>
+  <span class="kt">size_t</span> <span class="n">bucket_size_</span><span class="p">;</span>  <span class="c1">// The size of a bucket</span>
+  <span class="kt">int</span> <span class="n">num_buckets_</span><span class="p">;</span>     <span class="c1">// The number of buckets in the hash table</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;&gt;</span>
+      <span class="n">dir_</span><span class="p">;</span>  <span class="c1">// The directory of the hash table</span>
+<span class="p">};</span></code></pre></figure>
+
+</details>
+
+<details><summary>Unit test</summary>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">TEST</span><span class="p">(</span><span class="n">ExtendibleHashTableTest</span><span class="p">,</span> <span class="n">BasicTest</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">table</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">ExtendibleHashTable</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"a"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">"b"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">"c"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s">"d"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s">"e"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s">"f"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s">"g"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s">"h"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">"i"</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">result</span><span class="p">;</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="s">"i"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="s">"h"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="s">"b"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_FALSE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">result</span><span class="p">));</span>
+
+  <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">8</span><span class="p">));</span>
+  <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+  <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+  <span class="n">EXPECT_FALSE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+<span class="p">}</span></code></pre></figure>
+
+</details>
+
+<h3 id="linear-hashing">Linear Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Linear_hashing">Linear hashing</a> keeps a pointer to track the next bucket to split, and uses multiple hashes to find the right bucket for a given key. When a bucket overflows, the bucket is split into the pointer location. Different overflow criterions can be used, e.g. load factor.</p>
+
+<h2 id="references">References</h2>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>https://en.wikipedia.org/wiki/Hash_table <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Minmin Jin</name></author><category term="computer_science" /><category term="data_structure" /><summary type="html"><![CDATA[Hash table is a common data structure that uses a hash function to compute an index into an array of buckets, from which the desired the value can be found1. When designing a hash table, below decisions need to be considered: Hash Function: used to map a large key space into a smaller domain. Trade-offs need to be made between the compute speed and the collision rate. For example, cryptographic hash functions have very low collision rate but is usually slow. Hashing Scheme: used to handle key collisions after hashing. Common approaches include having a large hash table, or dynamically shuffling the keys. https://en.wikipedia.org/wiki/Hash_table &#8617;]]></summary></entry><entry><title type="html">Building a Miniature Study Room</title><link href="http://localhost:4000/2022/12/04/building-a-miniature-study-room.html" rel="alternate" type="text/html" title="Building a Miniature Study Room" /><published>2022-12-04T00:00:00-08:00</published><updated>2022-12-04T00:00:00-08:00</updated><id>http://localhost:4000/2022/12/04/building-a-miniature-study-room</id><content type="html" xml:base="http://localhost:4000/2022/12/04/building-a-miniature-study-room.html"><![CDATA[<p>I bought a <a href="https://www.amazon.com/gp/product/B06X3VNJBZ/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;th=1">DIY set</a> for Zoltan several years ago. But because of its complexity and the time it would take to do it, he never had the chance to start on it. On a cold winter night, I decided to try it since I have never done this kind of modeling before. It turned out to a big time sucker. I finished on and off after two weeks, totaling two full days on it.</p>
 
 <p>The set has multiple parts, each requiring a different skill set.</p>
 
@@ -29,7 +292,7 @@
 <p><img src="/assets/images/posts/miniature-study-room/IMGR24944.JPG" />
 <img src="/assets/images/posts/miniature-study-room/IMGR24953.JPG" /></p>
 
-<p>My thoughts of modeling is that it is not really a creative activity as you are just following the steps that have been tested by the professionals. But it could be a good first step to design your own models. The result is nice. We get decorations for the house anyway, why not make them yourselves? And the process requires so much focus, patience, and meticulosity!</p>]]></content><author><name>Minmin Jin</name></author><category term="modeling" /><summary type="html"><![CDATA[My first experience of modeling]]></summary></entry><entry><title type="html">My experience of getting a Portugal visa</title><link href="http://localhost:4000/2022/10/18/portugal-visa.html" rel="alternate" type="text/html" title="My experience of getting a Portugal visa" /><published>2022-10-18T00:00:00-07:00</published><updated>2022-10-18T00:00:00-07:00</updated><id>http://localhost:4000/2022/10/18/portugal-visa</id><content type="html" xml:base="http://localhost:4000/2022/10/18/portugal-visa.html"><![CDATA[<p>I flew to San Francisco this week to take the Schengen visa interview. The interview was scheduled at 10:00 a.m. I stayed in a hotel in Newark for other purposes. The bart green line can take me from the Union City station to the Montgomery St station, and from where, it is just a few minutes walk. I planned to leave at 8:45 a.m. and come back before noon. I ended up finishing everything at almost 3:00 p.m. The reason is that the Portugal consulate is much more restrictive on the materials than other Schengen countries, and the requirements are not listed in anywhere I could find. I had to redo a lot of the materials. I am writing down the experience to hopefully help others in the same situation.</p>
+<p>My thoughts of modeling is that it is not really a creative activity as you are just following the steps that have been tested by the professionals. But it could be a good first step to design your own models. The result is nice. We get decorations for the house anyway, why not make them yourselves? And the process requires so much focus, patience, and meticulosity!</p>]]></content><author><name>Minmin Jin</name></author><category term="modeling" /><summary type="html"><![CDATA[I bought a DIY set for Zoltan several years ago. But because of its complexity and the time it would take to do it, he never had the chance to start on it. On a cold winter night, I decided to try it since I have never done this kind of modeling before. It turned out to a big time sucker. I finished on and off after two weeks, totaling two full days on it.]]></summary></entry><entry><title type="html">My Experience of Getting a Portugal Visa</title><link href="http://localhost:4000/2022/10/18/portugal-visa.html" rel="alternate" type="text/html" title="My Experience of Getting a Portugal Visa" /><published>2022-10-18T00:00:00-07:00</published><updated>2022-10-18T00:00:00-07:00</updated><id>http://localhost:4000/2022/10/18/portugal-visa</id><content type="html" xml:base="http://localhost:4000/2022/10/18/portugal-visa.html"><![CDATA[<p>I flew to San Francisco this week to take the Schengen visa interview. The interview was scheduled at 10:00 a.m. I stayed in a hotel in Newark for other purposes. The bart green line can take me from the Union City station to the Montgomery St station, and from where, it is just a few minutes walk. I planned to leave at 8:45 a.m. and come back before noon. I ended up finishing everything at almost 3:00 p.m. The reason is that the Portugal consulate is much more restrictive on the materials than other Schengen countries, and the requirements are not listed in anywhere I could find. I had to redo a lot of the materials. I am writing down the experience to hopefully help others in the same situation.</p>
 
 <p>First of all, Portugal visa applications are outsourced to <a href="https://www.vfsglobal.com">VFS Global</a>, as many other countries do. One benefit of using the service is that, if you applied through them once, the biometrics can be reused in your future Schengen visa applications in the next two years and you can just mail them all the materials. The VFS office is conveniently located next to Union Square. After you get on to the 5th floor, there will be bodyguard doing a rudimentary check on the materials, if you do miss some obvious things, they would send you downstairs. Fortunately, the appointment slot is still valid as long as you have been there once. Once you pass the first check, the guard takes you to a room, where you wait and see the VFS agent checking others’ materials. Reviews for this agency on Google is pretty negative. My own experience is that the process sucks, e.g. material requirements are not clearly documented, appointments could take extremely longer (probably because of the lack of clear documentation). But the staff there are nice and responsible. They went through my materials carefully, and pointed out all the things that I did not do or did not do well, which could lead to a reject from the consulate. And they allowed me to come back at the same day once I updated my materials.</p>
 
@@ -87,8 +350,7 @@
 
 <p>I would recommend bringing your personal laptop with you, in case you need to update any materials. There is a Fedex close by that you can print stuff. The Fedex also has computers with Internet access. But the minute charge is quite expensive. If all any reason, you need to access computers for a relatively long time, the San Francisco Public Library is a good place to go. It is two bart stops away. It has a lot of free computers and paid printers. The staff there are super nice and provide guest passes for accessing the computers.</p>
 
-<p>I do not understand why Portugal is so much more restrictive. I applied for Schengen visa at Switzerland consulate before the pandemic, and it was a breeze. Anyway, better to be over-prepared next time!</p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[I flew to San Francisco this week to take the Schengen visa interview. The interview was scheduled at 10:00 a.m. I stayed in a hotel in Newark for other purposes. The bart green line can take me from the Union City station to the Montgomery St station, and from where, it is just a few minutes walk. I planned to leave at 8:45 a.m. and come back before noon. I ended up finishing everything at almost 3:00 p.m. The reason is that the Portugal consulate is much more restrictive on the materials than other Schengen countries, and the requirements are not listed in anywhere I could find. I had to redo a lot of the materials. I am writing down the experience to hopefully help others in the same situation.]]></summary></entry><entry><title type="html">Raft Basics</title><link href="http://localhost:4000/2022/09/18/raft-basics.html" rel="alternate" type="text/html" title="Raft Basics" /><published>2022-09-18T00:00:00-07:00</published><updated>2022-09-18T00:00:00-07:00</updated><id>http://localhost:4000/2022/09/18/raft-basics</id><content type="html" xml:base="http://localhost:4000/2022/09/18/raft-basics.html"><![CDATA[<h2 id="intro">Intro</h2>
-<p><i>
+<p>I do not understand why Portugal is so much more restrictive. I applied for Schengen visa at Switzerland consulate before the pandemic, and it was a breeze. Anyway, better to be over-prepared next time!</p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[I flew to San Francisco this week to take the Schengen visa interview. The interview was scheduled at 10:00 a.m. I stayed in a hotel in Newark for other purposes. The bart green line can take me from the Union City station to the Montgomery St station, and from where, it is just a few minutes walk. I planned to leave at 8:45 a.m. and come back before noon. I ended up finishing everything at almost 3:00 p.m. The reason is that the Portugal consulate is much more restrictive on the materials than other Schengen countries, and the requirements are not listed in anywhere I could find. I had to redo a lot of the materials. I am writing down the experience to hopefully help others in the same situation.]]></summary></entry><entry><title type="html">Raft Basics</title><link href="http://localhost:4000/2022/09/18/raft-basics.html" rel="alternate" type="text/html" title="Raft Basics" /><published>2022-09-18T00:00:00-07:00</published><updated>2022-09-18T00:00:00-07:00</updated><id>http://localhost:4000/2022/09/18/raft-basics</id><content type="html" xml:base="http://localhost:4000/2022/09/18/raft-basics.html"><![CDATA[<p><i>
 This post is mostly based on the <a href="https://www.youtube.com/watch?v=YbZ3zDzDnrw">Raft lecture</a> by John Ousterhout.
 </i></p>
 
@@ -375,8 +637,7 @@ This post is mostly based on the <a href="https://www.youtube.com/watch?v=YbZ3zD
       <li>Reset state machine using snapshot contents (and load snapshot’s cluster configuration)</li>
     </ol>
   </li>
-</ul>]]></content><author><name>Minmin Jin</name></author><category term="computer_science" /><category term="consensus_algorithm" /><summary type="html"><![CDATA[Basics of the Raft consensus algorithm.]]></summary></entry><entry><title type="html">Utah National Parks</title><link href="http://localhost:4000/2022/09/10/utah-national-parks.html" rel="alternate" type="text/html" title="Utah National Parks" /><published>2022-09-10T00:00:00-07:00</published><updated>2022-09-10T00:00:00-07:00</updated><id>http://localhost:4000/2022/09/10/utah-national-parks</id><content type="html" xml:base="http://localhost:4000/2022/09/10/utah-national-parks.html"><![CDATA[<h2 id="overview">Overview</h2>
-<p>We visited the five famous Utah national parks during the Labor Day week, i.e. Arches, Canyonlands, Capitol Reef, Bryce Canyon, and Zion National Park. We flew to Salt Lake City, drove from east to west, and went home from Las Vegas.</p>
+</ul>]]></content><author><name>Minmin Jin</name></author><category term="computer_science" /><category term="consensus_algorithm" /><summary type="html"><![CDATA[This post is mostly based on the Raft lecture by John Ousterhout.]]></summary></entry><entry><title type="html">Utah National Parks</title><link href="http://localhost:4000/2022/09/10/utah-national-parks.html" rel="alternate" type="text/html" title="Utah National Parks" /><published>2022-09-10T00:00:00-07:00</published><updated>2022-09-10T00:00:00-07:00</updated><id>http://localhost:4000/2022/09/10/utah-national-parks</id><content type="html" xml:base="http://localhost:4000/2022/09/10/utah-national-parks.html"><![CDATA[<p>We visited the five famous Utah national parks during the Labor Day week, i.e. Arches, Canyonlands, Capitol Reef, Bryce Canyon, and Zion National Park. We flew to Salt Lake City, drove from east to west, and went home from Las Vegas.</p>
 
 <h2 id="salt-lake-city">Salt Lake City</h2>
 <p>Salt Lake City is simply huge. The airport is spacious. The streets are wide. There are also many churches around. Zoltan was joking that you could stay here for weeks and visit a new church every day. All the homeless people were gathering outside a cathedral church. The temperature was still high in September. With barely any trees in the city except some rich residential areas, we rarely met anyone on the street on a Thursday morning.</p>
@@ -437,7 +698,7 @@ After about 1 mile starts the actual trail. We did not do much plan and was surp
 <img src="/assets/images/posts/utah-national-parks/IMGR24806.JPG" /></p>
 
 <h2 id="final-words">Final Words</h2>
-<p>This is another beautiful trip. The five national parks are unique and charming in their own way. We finished the 30hr podcast of the Japanese history in WW2 in this trip.</p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[Visiting the five Utah national parks]]></summary></entry><entry><title type="html">Paxos Basics</title><link href="http://localhost:4000/2022/08/07/paxos-basics.html" rel="alternate" type="text/html" title="Paxos Basics" /><published>2022-08-07T00:00:00-07:00</published><updated>2022-08-07T00:00:00-07:00</updated><id>http://localhost:4000/2022/08/07/paxos-basics</id><content type="html" xml:base="http://localhost:4000/2022/08/07/paxos-basics.html"><![CDATA[<p>This post is mostly based on the <a href="https://www.youtube.com/watch?v=JEpsBg0AO6o">Paxos lecture video</a> by John Ousterhout, and <a href="https://paxos.systems">Paxos Made Moderately Complex</a>.</p>
+<p>This is another beautiful trip. The five national parks are unique and charming in their own way. We finished the 30hr podcast of the Japanese history in WW2 in this trip.</p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[We visited the five famous Utah national parks during the Labor Day week, i.e. Arches, Canyonlands, Capitol Reef, Bryce Canyon, and Zion National Park. We flew to Salt Lake City, drove from east to west, and went home from Las Vegas.]]></summary></entry><entry><title type="html">Paxos Basics</title><link href="http://localhost:4000/2022/08/07/paxos-basics.html" rel="alternate" type="text/html" title="Paxos Basics" /><published>2022-08-07T00:00:00-07:00</published><updated>2022-08-07T00:00:00-07:00</updated><id>http://localhost:4000/2022/08/07/paxos-basics</id><content type="html" xml:base="http://localhost:4000/2022/08/07/paxos-basics.html"><![CDATA[<p>This post is mostly based on the <a href="https://www.youtube.com/watch?v=JEpsBg0AO6o">Paxos lecture video</a> by John Ousterhout, and <a href="https://paxos.systems">Paxos Made Moderately Complex</a>.</p>
 
 <p>Paxos is a protocol for state machine replication in an asynchronous environment to reach consensus on single values. The failure model of a replica in an asynchronous environment includes non-<a href="https://en.wikipedia.org/wiki/Byzantine_fault">Byzantine</a> fail-stop, delayed or lost messages. The goal is to make the state machines reliable by executing the same commands in the order order on all servers, so in the event of failures, the states do not get lost. The challenge comes up when multiple clients issue requests to replicas in parallel. Different replicas may receive requests in different orders and execute the commands in different order, causing their local states to diverge from one another over time.</p>
 
@@ -617,8 +878,7 @@ After about 1 mile starts the actual trail. We did not do much plan and was surp
   <li><a href="https://ramcloud.stanford.edu/wiki/download/attachments/11370504/raft.pdf">RAFT</a> is an attempt at a more understandable consensus algorithm. The <a href="https://www.youtube.com/watch?v=YbZ3zDzDnrw">video presentation</a>, also by John Ousterhout, is great too.</li>
   <li><a href="http://pmg.csail.mit.edu/papers/vr-revisited.pdf">Viewstamped Replication</a> by Barbara Liskov is an early algorithm to directly model log replication.</li>
   <li><a href="http://www.stanford.edu/class/cs347/reading/zab.pdf">Zab</a> is the algorithm used by Zookeeper.</li>
-</ul>]]></content><author><name>Minmin Jin</name></author><category term="computer_science" /><category term="consensus_algorithm" /><summary type="html"><![CDATA[Basics of the Paxos consensus algorithm.]]></summary></entry><entry><title type="html">[notes] How to Speak</title><link href="http://localhost:4000/2022/07/27/notes-how-to-speak.html" rel="alternate" type="text/html" title="[notes] How to Speak" /><published>2022-07-27T00:00:00-07:00</published><updated>2022-07-27T00:00:00-07:00</updated><id>http://localhost:4000/2022/07/27/notes-how-to-speak</id><content type="html" xml:base="http://localhost:4000/2022/07/27/notes-how-to-speak.html"><![CDATA[<h2 id="intro">Intro</h2>
-<p>Patrick Winston’s How to Speak talk has been an MIT tradition for over 40 years. The talk is intended to improve your speaking ability in critical situations by teaching you a few heuristic rules. The talk is available on <a href="&quot;https://www.youtube.com/watch?v=Unzc731iCUY&quot;">youtube</a>.</p>
+</ul>]]></content><author><name>Minmin Jin</name></author><category term="computer_science" /><category term="consensus_algorithm" /><summary type="html"><![CDATA[This post is mostly based on the Paxos lecture video by John Ousterhout, and Paxos Made Moderately Complex.]]></summary></entry><entry><title type="html">[notes] How to Speak</title><link href="http://localhost:4000/2022/07/27/notes-how-to-speak.html" rel="alternate" type="text/html" title="[notes] How to Speak" /><published>2022-07-27T00:00:00-07:00</published><updated>2022-07-27T00:00:00-07:00</updated><id>http://localhost:4000/2022/07/27/notes-how-to-speak</id><content type="html" xml:base="http://localhost:4000/2022/07/27/notes-how-to-speak.html"><![CDATA[<p>Patrick Winston’s How to Speak talk has been an MIT tradition for over 40 years. The talk is intended to improve your speaking ability in critical situations by teaching you a few heuristic rules. The talk is available on <a href="&quot;https://www.youtube.com/watch?v=Unzc731iCUY&quot;">youtube</a>.</p>
 
 <h2 id="how-to-start">How to Start</h2>
 <p>The best way to start a talk is with an empowerment promise, telling people what they will know by the end of the talk that they do not at the beginning of the talk.</p>
@@ -721,7 +981,7 @@ After about 1 mile starts the actual trail. We did not do much plan and was surp
   <li>Use a joke to finish</li>
   <li>Salute to the audience (e.g. happy to be here to give the talk)</li>
   <li>Never say thank you. It is a weak move.</li>
-</ul>]]></content><author><name>Minmin Jin</name></author><category term="notes" /><category term="communication" /><summary type="html"><![CDATA[Notes about the talk.]]></summary></entry><entry><title type="html">One month into Confluent</title><link href="http://localhost:4000/2022/07/10/one-month-into-confluent.html" rel="alternate" type="text/html" title="One month into Confluent" /><published>2022-07-10T00:00:00-07:00</published><updated>2022-07-10T00:00:00-07:00</updated><id>http://localhost:4000/2022/07/10/one-month-into-confluent</id><content type="html" xml:base="http://localhost:4000/2022/07/10/one-month-into-confluent.html"><![CDATA[<p>I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.</p>
+</ul>]]></content><author><name>Minmin Jin</name></author><category term="notes" /><category term="communication" /><summary type="html"><![CDATA[Patrick Winston’s How to Speak talk has been an MIT tradition for over 40 years. The talk is intended to improve your speaking ability in critical situations by teaching you a few heuristic rules. The talk is available on youtube.]]></summary></entry><entry><title type="html">One month into Confluent</title><link href="http://localhost:4000/2022/07/10/one-month-into-confluent.html" rel="alternate" type="text/html" title="One month into Confluent" /><published>2022-07-10T00:00:00-07:00</published><updated>2022-07-10T00:00:00-07:00</updated><id>http://localhost:4000/2022/07/10/one-month-into-confluent</id><content type="html" xml:base="http://localhost:4000/2022/07/10/one-month-into-confluent.html"><![CDATA[<p>I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.</p>
 
 <h2 id="toolings">Toolings</h2>
 <p>Google has such a large range of products that most of the day-to-day tools we use are created within the company, such as video conferencing, collaborative documentations, and etc. The rest of the gaps are mostly filled by other large companies, such as SAP Concur. I did expect smaller companies to rely more on third party vendors. But the actual amount and variety were astonishing. Just to give some examples, they have apps for initiating, communicating, and tracking immigration stuff, for giving feedback, and for managing flags used in code.</p>
@@ -740,7 +1000,7 @@ After about 1 mile starts the actual trail. We did not do much plan and was surp
 <h2 id="development-environments">Development environments</h2>
 <p>I had a few PRs merged and had my hands dirty on so many different tools that I have read about or first heard of. I think the overall experience in Google is more fluent, mainly because of the mono repo. Confluent uses GitHub and microservice architecture, as a result, code is spread across multiple repos. Refactoring or code sharing becomes much harder than back in Google. I will talk more about it in a future post, as I make progress in first project, which is a service migration and involves large amount of refactoring.</p>
 
-<p>I am still exploring the “soft” side of the new company. Maybe I will share more later.</p>]]></content><author><name>Minmin Jin</name></author><category term="career" /><summary type="html"><![CDATA[I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent's size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.]]></summary></entry><entry><title type="html">Atlanta and the Great Smoky Mountains</title><link href="http://localhost:4000/2022/06/04/atlanta-and-the-great-smoky-mountains.html" rel="alternate" type="text/html" title="Atlanta and the Great Smoky Mountains" /><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><id>http://localhost:4000/2022/06/04/atlanta-and-the-great-smoky-mountains</id><content type="html" xml:base="http://localhost:4000/2022/06/04/atlanta-and-the-great-smoky-mountains.html"><![CDATA[<p>Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company. We chose it because of several reasons: we have never been to the southern states but heard South and North Carolina have nice views, the Great Smoky Mountains National Park is one of top most visited national parks in the States, I had a long vacation so it was a good time to go to a faraway place.</p>
+<p>I am still exploring the “soft” side of the new company. Maybe I will share more later.</p>]]></content><author><name>Minmin Jin</name></author><category term="career" /><summary type="html"><![CDATA[I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent’s size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.]]></summary></entry><entry><title type="html">Atlanta and the Great Smoky Mountains</title><link href="http://localhost:4000/2022/06/04/atlanta-and-the-great-smoky-mountains.html" rel="alternate" type="text/html" title="Atlanta and the Great Smoky Mountains" /><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><id>http://localhost:4000/2022/06/04/atlanta-and-the-great-smoky-mountains</id><content type="html" xml:base="http://localhost:4000/2022/06/04/atlanta-and-the-great-smoky-mountains.html"><![CDATA[<p>Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company. We chose it because of several reasons: we have never been to the southern states but heard South and North Carolina have nice views, the Great Smoky Mountains National Park is one of top most visited national parks in the States, I had a long vacation so it was a good time to go to a faraway place.</p>
 
 <h2 id="day-1---arriving-in-atlanta">Day 1 - Arriving in Atlanta</h2>
 <p>We took a flight in the evening, slept in the plane, and arrived in Atlanta in the early morning. The first thing we did in Atlanta was to have a classic Southern breakfast. We were excited that the restaurant was owned by local Black people, though, we later realized that this is very common in Atlanta.
@@ -839,7 +1099,7 @@ Finally, we arrived at the top of Mount LeConte, where there was a working lodge
 
 <h2 id="day-11---go-home">Day 11 - Go home</h2>
 <p>On the way back to Atlanta, it started raining dogs and cats. We were lucky to have a mostly sunny trip. As we had time before the flight, we visited the Coke Cola headquarter and tried hundreds of coke variations.
-<img src="/assets/images/posts/atlanta-and-the-great-smoky-mountains/IMGR23875.JPG" /></p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company.]]></summary></entry><entry><title type="html">Death Valley</title><link href="http://localhost:4000/2022/01/08/death-valley.html" rel="alternate" type="text/html" title="Death Valley" /><published>2022-01-08T00:00:00-08:00</published><updated>2022-01-08T00:00:00-08:00</updated><id>http://localhost:4000/2022/01/08/death-valley</id><content type="html" xml:base="http://localhost:4000/2022/01/08/death-valley.html"><![CDATA[<p>Death Valley is attractive just by its name. In the old times, people who came to this area usually had a difficult time crossing it alive because of its vastness and extreme whether. Even in our trip during the last Christmas, it could be very hot when walking in the sun.
+<img src="/assets/images/posts/atlanta-and-the-great-smoky-mountains/IMGR23875.JPG" /></p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[Zoltan and I went to the Great Smoky Mountains in the end of May, to take some time off before I transit to a new company. We chose it because of several reasons: we have never been to the southern states but heard South and North Carolina have nice views, the Great Smoky Mountains National Park is one of top most visited national parks in the States, I had a long vacation so it was a good time to go to a faraway place.]]></summary></entry><entry><title type="html">Death Valley</title><link href="http://localhost:4000/2022/01/08/death-valley.html" rel="alternate" type="text/html" title="Death Valley" /><published>2022-01-08T00:00:00-08:00</published><updated>2022-01-08T00:00:00-08:00</updated><id>http://localhost:4000/2022/01/08/death-valley</id><content type="html" xml:base="http://localhost:4000/2022/01/08/death-valley.html"><![CDATA[<p>Death Valley is attractive just by its name. In the old times, people who came to this area usually had a difficult time crossing it alive because of its vastness and extreme whether. Even in our trip during the last Christmas, it could be very hot when walking in the sun.
 <img src="/assets/images/posts/death-valley/IMGR23199.JPG" />
 <img src="/assets/images/posts/death-valley/IMGR23206.JPG" /></p>
 
@@ -881,118 +1141,4 @@ Finally, we arrived at the top of Mount LeConte, where there was a working lodge
 <p>We came here to see the unique pupfish. They are tiny rare fishes that are near distinct. The hole is deep and provides a hidden home for the fishes. The mountain around is spotted by red, variously sized cactus, which is exotic.</p>
 
 <h2 id="ash-meadows-national-wildlife-refuge">Ash Meadows National wildlife Refuge</h2>
-<p>We stopped by the refuge in the last day of the trip. Not really much there in winter. But we did almost bump into a lynx on the road there. Likely there are plenty more chances to spot wildlife in the warmer seasons.</p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[A trip to Death Valley.]]></summary></entry><entry><title type="html">Yellowstone and Grand Teton</title><link href="http://localhost:4000/2021/10/02/yellowstone-and-grand-teton.html" rel="alternate" type="text/html" title="Yellowstone and Grand Teton" /><published>2021-10-02T00:00:00-07:00</published><updated>2021-10-02T00:00:00-07:00</updated><id>http://localhost:4000/2021/10/02/yellowstone-and-grand-teton</id><content type="html" xml:base="http://localhost:4000/2021/10/02/yellowstone-and-grand-teton.html"><![CDATA[<h2 id="overview">Overview</h2>
-<p>Zoltan and I visited Yellowstone and Grand Teton during the Labor Day week. We flied to Bozeman, rented a car, and started the journey from the north entrance. We spent 10 nights there, 9 in our green tent, and 1 in a little wooden cabin. We watched hundreds of hydrothermal vents, hiked many trails, tried horseback riding, floated along the Snake River, and observed various wild animals.</p>
-
-<h2 id="hydrothermal-vents">Hydrothermal vents</h2>
-<p>Yellowstone is famous for its colorful hydrothermal features, including hot springs, geysers, mudpots, travertine terraces, and fumaroles. The variety and the amount are extraordinary. They are everywhere in the park, but more or less different at each place.</p>
-
-<h3 id="hot-springs">Hot springs</h3>
-
-<p><img src="/assets/images/posts/yellowstone-grand-teton/IMGR21844.JPG" />
-The famous Grand Prismatic Spring.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21973.JPG" /></p>
-
-<h3 id="mudpots">Mudpots</h3>
-<p><img src="/assets/images/posts/yellowstone-grand-teton/IMGR20869.JPG" />
-A colorful clay pot
-<img src="/assets/images/posts/yellowstone-grand-teton/IMG_5009.JPG" /></p>
-
-<h3 id="geysers">Geysers</h3>
-<p>Some of the geyser eruptions can be predicted. The period varies from minutes to years. Definitely checkout the Old Faithful visitor center, if you are interested in seeing the eruption of some of the largest geysers.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21266.JPG" />
-Waterside Geyser
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21395.JPG" />
-Gigantic geyser in Old Faithful
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21781.JPG" />
-Volcano like geyser
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21894.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21902.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR22035.JPG" /></p>
-
-<h3 id="fumaroles--steam-vents">Fumaroles / steam vents</h3>
-<p><img src="/assets/images/posts/yellowstone-grand-teton/IMGR20969.JPG" /></p>
-
-<h3 id="travertine-terraces">Travertine terraces</h3>
-<p>Must-see Mammoth Hot Springs Terraces.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21099.JPG" />
-A close look.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21095.JPG" /></p>
-
-<h2 id="wildlife">Wildlife</h2>
-<p>We had the most first-time animal encounters in Yellowstone and Grand Teton. We also learnt the word <b>“Animal Jam”</b> - a traffic jam caused by drivers stopping at the road to watch animals. It is a thing that broadcasted in the park radios and printed at the brochures and signs.</p>
-
-<p>Yellowstone has a lot of stories about grizzly bears. Whether they are true or not, grizzly bears do exist here and they are among the most lethal creatures. We carried bear spray with us on all wild trails.</p>
-
-<p><b>Bison</b>s are easy to spot in Yellowstone. They tend to appear in the early morning and in the evenings. We met one very closely when having food in one of the picnic areas after a hike. It came suddenly and slowly walked by our table. We stayed quiet to not provoke it. All of it happened like a dream.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR20953.JPG" /></p>
-
-<p><b>Elk</b> jams was frequent as well. But it was in the Mammoth visitor center that we got the best view. Elks like to visit there in the evenings. The first time we went to that visitor center, we noticed a lot of poop left on the grass. We got to know where they were from after seeing elk herds filling the area in one evening. They also went all the way to Gardiner, a small town in the north of the Mammoth visitor center. Trees and flowers there were fenced to protect them from the herbivores.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21060.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21280.JPG" /></p>
-
-<p>Small mammals like <b>chipmunk</b>s have a high population here. Some were very brave and lived around the geysers. We also saw a marmot from our car when driving up to a peak.  In the <b>Cascade Canyon trial</b>, we frightened a rat like animals, possibly a pika.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21009.JPG" /></p>
-
-<p>We met this <b>black bear</b> during a hike in Grand Teton. With so many people in the hike, nobody was scared except the bear.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21452.JPG" /></p>
-
-<p>Another hike encounter. This time it was a <b>moose</b>. It was chewing leaves at the same spot for hours.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21501.JPG" /></p>
-
-<p>A <a href="https://en.wikipedia.org/wiki/Rock_ptarmigan"><b>ptarmigan</b></a> in the bushes and eagles in the tree tops.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21578.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21696.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21699.JPG" /></p>
-
-<p>To have some exotic fun, we tried bison burgers and elk burgers during the trip. The former was from <a href="http://www.signalmountainlodge.com/">Trapper Grill</a> in the Signal Mountain Lodge next to the Jenny Lake, where we enjoyed the food with a view of the Grand Teton range.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21706.JPG" />
-The elk burger was a discovery in Gardiner. Between Wyoming and Montana, there were several elk farms, where we guess was the meat from.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMG_5133.JPG" /></p>
-
-<h2 id="camping-and-cabining">Camping and cabining</h2>
-<p>In Yellowstone, we camped in the <a href="https://www.nps.gov/yell/planyourvisit/canyoncg.htm">Canyon Campground</a> and the <a href="https://www.nps.gov/yell/planyourvisit/madisoncg.htm">Madison Campground</a>.</p>
-
-<p>The Canyon Campground is in a pine forest at Canyon Village. This area is well commercialized, with lodges, restaurants, a big general store, and a gift store.
-<img src="/assets/images/posts/yellowstone-grand-teton/canyon_campground.JPG" /></p>
-
-<p>The Madison Campground is next to a meadow with a creek running across. The views were glorious.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21947.JPG" /></p>
-
-<p>In Grand Teton, we stayed in the <a href="https://www.gtlc.com/camping/headwaters-campground-at-flagg-ranch">Headwaters Campground at Flagg Ranch</a>.
-<img src="/assets/images/posts/yellowstone-grand-teton/headwaters_campground.JPG" /></p>
-
-<p>We were not able to get all nights in the tent, so for the last night in Grand Teton, we lived in a cabin, which provided bare minimal furniture. It was not a bad choice, considering that the nights in the area could be below freezing point.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMG_5079.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21774.JPG" /></p>
-
-<p>The air in Yellowstone in Fall was very dry. We had to get a lip balm to stop our lips from falling apart. The showers in the Yellowstone campgrounds were closed during our visit, we had to go to the nearby towns to clean ourselves.</p>
-
-<h2 id="hikes-and-activities">Hikes and activities</h2>
-<p>As usual, we did a lot of hikes. Yellowstone has really grand waterfalls and diverse landscapes. Grand Teton has a more forest-like terrain.</p>
-
-<p><a href="https://www.nps.gov/thingstodo/yell-trail-ribbon-lake.htm"><b>Ribbon Lake</b></a>
-<img src="/assets/images/posts/yellowstone-grand-teton/IMG_4869.JPG" /></p>
-
-<p>Waterfall in the Canyon
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR20900.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR20909.JPG" /></p>
-
-<p><b>Bunsen Peak</b> and <b>Osprey Falls</b>
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21034.JPG" />
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21049.JPG" /></p>
-
-<p><b>Cascade Lake trail</b>
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21222.JPG" /></p>
-
-<p><b>Natural Bridge trail</b>
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21364.JPG" /></p>
-
-<p><b>Cascade Canyon</b>
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21520.JPG" /></p>
-
-<p>Our first time horseback riding.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMG_4948.JPG" /></p>
-
-<p>Yellowstone used to have a primitive way of crossing the rivers by using a line. The old lady that did the floating with us told us that the facility was broken by a group of boy scouts in a summer.
-<img src="/assets/images/posts/yellowstone-grand-teton/IMGR21738.JPG" /></p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[Zoltan and I visited Yellowstone and Grand Teton during the Labor Day week. We flied to Bozeman, rented a car, and started the journey from the north entrance. We spent 10 nights there, 9 in our green tent, and 1 in a little wooden cabin. We watched hundreds of hydrothermal vents, hiked many trails, tried horseback riding, floated along the Snake River, and observed various wild animals.]]></summary></entry></feed>
+<p>We stopped by the refuge in the last day of the trip. Not really much there in winter. But we did almost bump into a lynx on the road there. Likely there are plenty more chances to spot wildlife in the warmer seasons.</p>]]></content><author><name>Minmin Jin</name></author><category term="travel" /><summary type="html"><![CDATA[Death Valley is attractive just by its name. In the old times, people who came to this area usually had a difficult time crossing it alive because of its vastness and extreme whether. Even in our trip during the last Christmas, it could be very hot when walking in the sun.]]></summary></entry></feed>

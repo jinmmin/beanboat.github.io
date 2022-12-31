@@ -3,7 +3,6 @@ layout: post
 title:  "Death Valley"
 date:   2022-01-08
 tags: ["travel"]
-excerpt: A trip to Death Valley.
 ---
 
 Death Valley is attractive just by its name. In the old times, people who came to this area usually had a difficult time crossing it alive because of its vastness and extreme whether. Even in our trip during the last Christmas, it could be very hot when walking in the sun.

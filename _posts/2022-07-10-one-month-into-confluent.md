@@ -3,7 +3,6 @@ layout: post
 title:  "One month into Confluent"
 date:   2022-07-10
 tags: ["career"]
-excerpt: I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent's size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.
 ---
 
 I left Google and joined Confluent about one month ago. All my career years have been spent in large corporations. Working for a company of Confluent's size is a brand new experience. I am documenting my discoveries and surprises before I get too used to the new world.

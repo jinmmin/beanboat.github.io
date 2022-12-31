@@ -3,7 +3,6 @@ layout: post
 title:  "Yellowstone and Grand Teton"
 date:   2021-10-02
 tags: ["travel"]
-excerpt: Zoltan and I visited Yellowstone and Grand Teton during the Labor Day week. We flied to Bozeman, rented a car, and started the journey from the north entrance. We spent 10 nights there, 9 in our green tent, and 1 in a little wooden cabin. We watched hundreds of hydrothermal vents, hiked many trails, tried horseback riding, floated along the Snake River, and observed various wild animals.
 ---
 
 ## Overview

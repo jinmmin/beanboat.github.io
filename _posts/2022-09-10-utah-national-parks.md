@@ -3,10 +3,8 @@ layout: post
 title:  "Utah National Parks"
 date: 2022-09-10
 tags: ["travel"]
-excerpt: Visiting the five Utah national parks
 ---
 
-## Overview
 We visited the five famous Utah national parks during the Labor Day week, i.e. Arches, Canyonlands, Capitol Reef, Bryce Canyon, and Zion National Park. We flew to Salt Lake City, drove from east to west, and went home from Las Vegas.
 
 ## Salt Lake City

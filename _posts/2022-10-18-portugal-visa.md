@@ -1,9 +1,8 @@
 ---
 layout: post
-title:  "My experience of getting a Portugal visa"
+title:  "My Experience of Getting a Portugal Visa"
 date:   2022-10-18
 tags: ["travel"]
-excerpt: I flew to San Francisco this week to take the Schengen visa interview. The interview was scheduled at 10:00 a.m. I stayed in a hotel in Newark for other purposes. The bart green line can take me from the Union City station to the Montgomery St station, and from where, it is just a few minutes walk. I planned to leave at 8:45 a.m. and come back before noon. I ended up finishing everything at almost 3:00 p.m. The reason is that the Portugal consulate is much more restrictive on the materials than other Schengen countries, and the requirements are not listed in anywhere I could find. I had to redo a lot of the materials. I am writing down the experience to hopefully help others in the same situation.
 ---
 
 I flew to San Francisco this week to take the Schengen visa interview. The interview was scheduled at 10:00 a.m. I stayed in a hotel in Newark for other purposes. The bart green line can take me from the Union City station to the Montgomery St station, and from where, it is just a few minutes walk. I planned to leave at 8:45 a.m. and come back before noon. I ended up finishing everything at almost 3:00 p.m. The reason is that the Portugal consulate is much more restrictive on the materials than other Schengen countries, and the requirements are not listed in anywhere I could find. I had to redo a lot of the materials. I am writing down the experience to hopefully help others in the same situation.

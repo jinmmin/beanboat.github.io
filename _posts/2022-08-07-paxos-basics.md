@@ -3,7 +3,6 @@ layout: post
 title:  "Paxos Basics"
 date:   2022-08-07
 tags: ["computer_science", "consensus_algorithm"]
-excerpt: Basics of the Paxos consensus algorithm.
 ---
 
 This post is mostly based on the [Paxos lecture video](https://www.youtube.com/watch?v=JEpsBg0AO6o) by John Ousterhout, and [Paxos Made Moderately Complex](https://paxos.systems).

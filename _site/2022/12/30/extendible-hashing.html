@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Hash Schemes and Extendible Hashing | Bean Boat</title>
+<meta name="generator" content="Jekyll v4.3.1">
+<meta property="og:title" content="Hash Schemes and Extendible Hashing">
+<meta name="author" content="Minmin Jin">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Hash table is a common data structure that uses a hash function to compute an index into an array of buckets, from which the desired the value can be found1. When designing a hash table, below decisions need to be considered: Hash Function: used to map a large key space into a smaller domain. Trade-offs need to be made between the compute speed and the collision rate. For example, cryptographic hash functions have very low collision rate but is usually slow. Hashing Scheme: used to handle key collisions after hashing. Common approaches include having a large hash table, or dynamically shuffling the keys. https://en.wikipedia.org/wiki/Hash_table ↩">
+<meta property="og:description" content="Hash table is a common data structure that uses a hash function to compute an index into an array of buckets, from which the desired the value can be found1. When designing a hash table, below decisions need to be considered: Hash Function: used to map a large key space into a smaller domain. Trade-offs need to be made between the compute speed and the collision rate. For example, cryptographic hash functions have very low collision rate but is usually slow. Hashing Scheme: used to handle key collisions after hashing. Common approaches include having a large hash table, or dynamically shuffling the keys. https://en.wikipedia.org/wiki/Hash_table ↩">
+<link rel="canonical" href="http://localhost:4000/2022/12/30/extendible-hashing.html">
+<meta property="og:url" content="http://localhost:4000/2022/12/30/extendible-hashing.html">
+<meta property="og:site_name" content="Bean Boat">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-12-30T00:00:00-08:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Hash Schemes and Extendible Hashing">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Minmin Jin"},"dateModified":"2022-12-30T00:00:00-08:00","datePublished":"2022-12-30T00:00:00-08:00","description":"Hash table is a common data structure that uses a hash function to compute an index into an array of buckets, from which the desired the value can be found1. When designing a hash table, below decisions need to be considered: Hash Function: used to map a large key space into a smaller domain. Trade-offs need to be made between the compute speed and the collision rate. For example, cryptographic hash functions have very low collision rate but is usually slow. Hashing Scheme: used to handle key collisions after hashing. Common approaches include having a large hash table, or dynamically shuffling the keys. https://en.wikipedia.org/wiki/Hash_table &#8617;","headline":"Hash Schemes and Extendible Hashing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2022/12/30/extendible-hashing.html"},"url":"http://localhost:4000/2022/12/30/extendible-hashing.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/atom.xml" title="Bean Boat">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Bean Boat" src="favicon.png" onerror="this.style.display='none'">
+  Bean Boat
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">HOME</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/tags.html">TAGS</a><!---->
+            <!--
+
+
+
+
+-->
+            <!---->
+            <!--<span class="page-link">
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: '',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>-->
+          </div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  (function() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;documentElement.setAttribute("data-header-transparent", "");var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <p>Hash table is a common data structure that uses a <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a> to compute an index into an array of buckets, from which the desired the value can be found<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. When designing a hash table, below decisions need to be considered:</p>
+<ul>
+  <li>
+<strong>Hash Function</strong>: used to map a large key space into a smaller domain. Trade-offs need to be made between the compute speed and the collision rate. For example, cryptographic hash functions have very low collision rate but is usually slow.</li>
+  <li>
+<strong>Hashing Scheme</strong>: used to handle key collisions after hashing. Common approaches include having a large hash table, or dynamically shuffling the keys.</li>
+</ul>
+
+<p>This post goes through some common hashing schemes, and uses Extendible Hashing as an example for more detailed explanation and implementation.</p>
+
+<h3 id="linear-probe-hashing">Linear Probe Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Linear_probing">Linear Probing</a> is one form of <a href="https://en.wikipedia.org/wiki/Open_addressing">open addressing</a>. It resolves collisions by linearly searching for the next free slot in the table. Linear probing is to unevenly distributed hash values, so a high-quality hash function such as <a href="https://en.wikipedia.org/wiki/MurmurHash">MurmurHash</a> is necessary to achieve good performance.</p>
+
+<h3 id="robin-hood-hashing">Robin Hood Hashing</h3>
+<p>Robin Hood Hashing is a variant of linear probe hashing. When new keys are inserted, old keys may be shifted if the new key is farther away from its optimal position than the old key, so as to keep all keys reasonably close to the slot they originally hash to.</p>
+
+<h3 id="cuckoo-hashing">Cuckoo Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Cuckoo_hashing">Cuckoo Hashing</a> handles collisions by pushing existing keys to another location in the table, resembling the way a cuckoo chick pushes other eggs out of the nest. Cuckoo hashing is commonly implemented using two hash functions and two arrays.</p>
+
+<h4 id="insert">Insert</h4>
+<p>A new element is always inserted in the first table. If a collision occurs, the existing key is moved to the second table. If that causes another collision, the second existing key is moved to the first table. This continues until all collisions are handled. The performance degrades with the increasing load factor.</p>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSPlW7_hIwrTd2dw9mDLtjWfZI_-SD9JTeAr-GyiaqGmw3G10mC3jXIDxyaSDuBcqQIe8unOH_mOwQm/embed?start=true&loop=true&delayms=1000" frameborder="0" width="600" height="366" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+<h4 id="lookup">Lookup</h4>
+<p>If a key exists, it will be stored in either the first array or the second one. So with at most two lookups, we can figure out if the key exists or not.</p>
+
+<h3 id="chained-hashing">Chained Hashing</h3>
+<p>Chained Hashing maintains a linked list of buckets for each slot in the hash table, and puts all elements with the same hash key into the same bucket. To determine whether a key exists, it retrieves the bucket and do a linear scan.</p>
+
+<h3 id="extendible-hashing">Extendible Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Extendible_hashing">Extendible Hashing</a> is a variant of chained hashing. Instead of letting the linked list grow infinitely, it splits the buckets.</p>
+
+<p>Frequently used terms in Extendible Hashing:</p>
+<ul>
+  <li>
+<strong>Directory</strong>: used to store the addresses of buckets in pointers. The hash function returns the directory id that points to the bucket for the hash key. The number of directories increases always by doubling.</li>
+  <li>
+<strong>Bucket</strong>: used to store actual data. More than one pointers in the directory may point to one bucket. Buckets have a predefined capacity, and when the number of elements in a bucket exceeds the capacity, the bucket overflows and will need a split.</li>
+  <li>
+<strong>Global Depth</strong>: associated with directories. Denotes the number of bits to use in the hash function result for categorizing the bucket. It is more efficient to use the <a href="https://en.wikipedia.org/wiki/Bit_numbering#Bit_significance_and_indexing">LSB</a> when expanding the table, as the entire directory can be copied as one block. <code class="language-plaintext highlighter-rouge">Number of Directories = 2^Global Depth</code>. Global Depth increments when the number of directory expands.</li>
+  <li>
+<strong>Local Depth</strong>:  associated with buckets. Used to decide the action to be performed in case of bucket overflow. Local depth increments when bucket splits. Local Depth is always less than or equal to the Global Depth.</li>
+</ul>
+
+<h4 id="insert-1">Insert</h4>
+<p>Below are steps to insert elements</p>
+<ol>
+  <li>Convert the key to binary format using an appropriate hash function.</li>
+  <li>Identify the directory. The directory id is the GlobalDepth number of <a href="https://en.wikipedia.org/wiki/Bit_numbering#Bit_significance_and_indexing">LSB</a>s in the binary number. E.g. the binary obtained is <code class="language-plaintext highlighter-rouge">11001</code> and the GlobalDepth is 3, the directory id is 3 LSBs of 11001 viz. 001.</li>
+  <li>Insert and check overflow. If bucket overflows,
+    <ol>
+      <li>Local Depth &lt; Global Depth: split the bucket, increment the local depth by 1, assign the pointer to the new bucket, redistribute the elements in the existing bucket.</li>
+      <li>Local Depth == Global Depth: expand the directory first, and do the bucket split.</li>
+    </ol>
+  </li>
+</ol>
+
+<p>Below example shows the insert process.</p>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRm51fSgFRiYLW-fefSPXLFuUGDQnt8i0hXltPHdWJUhX__IPR1V6JEjcmRNg3kmTb4Rp011Om0SRk7/embed?start=true&loop=true&delayms=1000" frameborder="0" width="600" height="366" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+<h4 id="implementation">Implementation</h4>
+
+<p>An example implementation based on <a href="https://15445.courses.cs.cmu.edu/fall2022/">CMU 15-445/645 Database Systems</a>.</p>
+
+<details><summary>Bucket</summary>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">K</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">V</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">Bucket</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">Bucket</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">size_</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">depth_</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="k">auto</span> <span class="n">GetDepth</span><span class="p">()</span> <span class="k">const</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">depth_</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">IncrementDepth</span><span class="p">()</span> <span class="p">{</span> <span class="n">depth_</span><span class="o">++</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">GetItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span> <span class="p">{</span> <span class="k">return</span> <span class="n">list_</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Find</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">item</span> <span class="o">:</span> <span class="n">list_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">first</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Remove</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">list_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="n">list_</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+        <span class="n">list_</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Insert</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">list_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">list_</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">size_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">list_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+ <span class="nl">private:</span>
+  <span class="kt">size_t</span> <span class="n">size_</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">depth_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span> <span class="n">list_</span><span class="p">;</span>
+<span class="p">};</span></code></pre></figure>
+
+</details>
+
+<details><summary>ExtendibleHashTable</summary>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">K</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">V</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">ExtendibleHashTable</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">explicit</span> <span class="n">ExtendibleHashTable</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">bucket_size</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">global_depth_</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">bucket_size_</span><span class="p">(</span><span class="n">bucket_size</span><span class="p">),</span> <span class="n">num_buckets_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="k">auto</span> <span class="n">GetGlobalDepth</span><span class="p">()</span> <span class="k">const</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">global_depth_</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">GetLocalDepth</span><span class="p">(</span><span class="kt">int</span> <span class="n">dir_index</span><span class="p">)</span> <span class="k">const</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">dir_</span><span class="p">[</span><span class="n">dir_index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetDepth</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Find</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="n">IndexOf</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">dir_</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="n">V</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">GetGlobalDepth</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dir_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">bucket_size_</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+      <span class="n">dir_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">bucket_size_</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+      <span class="n">global_depth_</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="n">IndexOf</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Bucket overflows.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="n">GetGlobalDepth</span><span class="p">())</span> <span class="p">{</span>
+      <span class="c1">// Expand the directory by copying the existing directory to the end.</span>
+      <span class="kt">size_t</span> <span class="n">current_size</span> <span class="o">=</span> <span class="n">dir_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">current_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">dir_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dir_</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+      <span class="p">}</span>
+      <span class="n">global_depth_</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">IncrementDepth</span><span class="p">();</span>
+
+    <span class="c1">// Split the bucket</span>
+    <span class="kt">size_t</span> <span class="n">aindex</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">global_depth_</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">global_depth_</span><span class="p">);</span>
+    <span class="c1">// Make the other directory point to a new bucket</span>
+    <span class="n">dir_</span><span class="p">[</span><span class="n">aindex</span><span class="p">]</span> <span class="o">=</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">bucket_size_</span><span class="p">,</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetDepth</span><span class="p">());</span>
+    <span class="n">bucket_size_</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="c1">// Redistribute the existing bucket</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">begin</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span> <span class="o">!=</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Move to the new bucket and remove from the existing bucket</span>
+        <span class="n">dir_</span><span class="p">[</span><span class="n">aindex</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">,</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="o">--</span><span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+          <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">pop_back</span><span class="p">();</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
+        <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">GetItems</span><span class="p">().</span><span class="n">pop_back</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">Insert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">Remove</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="n">IndexOf</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">dir_</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">dir_</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+  <span class="p">}</span>
+
+ <span class="nl">private:</span>
+  <span class="k">auto</span> <span class="n">IndexOf</span><span class="p">(</span><span class="k">const</span> <span class="n">K</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">size_t</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">global_depth_</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span><span class="n">K</span><span class="o">&gt;</span><span class="p">()(</span><span class="n">key</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">global_depth_</span><span class="p">;</span>    <span class="c1">// The global depth of the directory</span>
+  <span class="kt">size_t</span> <span class="n">bucket_size_</span><span class="p">;</span>  <span class="c1">// The size of a bucket</span>
+  <span class="kt">int</span> <span class="n">num_buckets_</span><span class="p">;</span>     <span class="c1">// The number of buckets in the hash table</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Bucket</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="o">&gt;&gt;&gt;</span>
+      <span class="n">dir_</span><span class="p">;</span>  <span class="c1">// The directory of the hash table</span>
+<span class="p">};</span></code></pre></figure>
+
+</details>
+
+<details><summary>Unit test</summary>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">TEST</span><span class="p">(</span><span class="n">ExtendibleHashTableTest</span><span class="p">,</span> <span class="n">BasicTest</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">table</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">ExtendibleHashTable</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"a"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">"b"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">"c"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s">"d"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s">"e"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s">"f"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s">"g"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s">"h"</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">"i"</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">GetLocalDepth</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">result</span><span class="p">;</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="s">"i"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="s">"h"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="s">"b"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+  <span class="n">EXPECT_FALSE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Find</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">result</span><span class="p">));</span>
+
+  <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">8</span><span class="p">));</span>
+  <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+  <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+  <span class="n">EXPECT_FALSE</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">Remove</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+<span class="p">}</span></code></pre></figure>
+
+</details>
+
+<h3 id="linear-hashing">Linear Hashing</h3>
+<p><a href="https://en.wikipedia.org/wiki/Linear_hashing">Linear hashing</a> keeps a pointer to track the next bucket to split, and uses multiple hashes to find the right bucket for a given key. When a bucket overflows, the bucket is split into the pointer location. Different overflow criterions can be used, e.g. load factor.</p>
+
+<h2 id="references">References</h2>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>https://en.wikipedia.org/wiki/Hash_table <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/2022/12/04/building-a-miniature-study-room.html" title="Building a Miniature Study Room">Building a Miniature Study Room</a><span></span>
+</div>
+<!---->
+    <!---->
+    <!-- <div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/2022/07/10/one-month-into-confluent.html" title="">One month into Confluent</a></li><li><a class="post-link" href="/2022/09/10/utah-national-parks.html" title="">Utah National Parks</a></li><li><a class="post-link" href="/2022/09/18/raft-basics.html" title="">Raft Basics</a></li><li><a class="post-link" href="/2022/10/18/portugal-visa.html" title="">My Experience of Getting a Portugal Visa</a></li></ul>
+    </div> -->
+    <!----><div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+      <div>Copyright © 2021-2023 @Minmin Jin</div>
+      <div>
+        <span>
+          <a href="/terms_and_licensing/index.html">Terms &amp; Licensing</a>
+        </span>
+      </div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/atom.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

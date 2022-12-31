@@ -3,10 +3,8 @@ layout: post
 title:  "Raft Basics"
 date:   2022-09-18
 tags: ["computer_science", "consensus_algorithm"]
-excerpt: Basics of the Raft consensus algorithm.
 ---
 
-## Intro
 <i>
 This post is mostly based on the [Raft lecture](https://www.youtube.com/watch?v=YbZ3zDzDnrw) by John Ousterhout.
 </i>

@@ -1,9 +1,8 @@
 ---
 layout: post
-title:  "Building a Miniature Study room"
+title:  "Building a Miniature Study Room"
 date:   2022-12-04
 tags: ["modeling"]
-excerpt: My first experience of modeling
 ---
 
 I bought a [DIY set](https://www.amazon.com/gp/product/B06X3VNJBZ/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1) for Zoltan several years ago. But because of its complexity and the time it would take to do it, he never had the chance to start on it. On a cold winter night, I decided to try it since I have never done this kind of modeling before. It turned out to a big time sucker. I finished on and off after two weeks, totaling two full days on it.
