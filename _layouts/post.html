@@ -18,10 +18,12 @@ sidebar:
     {%- include functions.html func='get_value' -%}
     {%- assign hidden = return -%}
 
-    {%- assign result = hidden | where_exp: "item", "item == 'header'" -%}
+    <!-- {%- assign result = hidden | where_exp: "item", "item == 'header'" -%}
     {%- if banner == nil and result.size == 0 -%}
     {%- include views/post-header.html -%}
-    {%- endif -%}
+    {%- endif -%} -->
+
+    {%- include views/post-header.html -%}
 
     {%- include views/article.html -%}
 
