@@ -71,7 +71,7 @@ A <a href="https://en.wikipedia.org/wiki/Rock_ptarmigan"><b>ptarmigan</b></a> in
 
 To have some exotic fun, we tried bison burgers and elk burgers during the trip. The former was from <a href="http://www.signalmountainlodge.com/">Trapper Grill</a> in the Signal Mountain Lodge next to the Jenny Lake, where we enjoyed the food with a view of the Grand Teton range.
 <img src="/assets/images/posts/yellowstone-grand-teton/IMGR21706.JPG" />
-The elk burger was a discovery in Gardiner. Between Wyoming and Montana, there were several elk farms, where we guess was the meat from.
+The elk burger was a discovery in Gardiner. Between Wyoming and Montana, there were several elk farms, where the meat was probably from.
 <img src="/assets/images/posts/yellowstone-grand-teton/IMG_5133.JPG" />
 
 ## Camping and cabining
