@@ -2,7 +2,7 @@
 layout: post
 title:  "Binary Search in Action"
 date:   2022-01-03
-tags: ["compute_science", "algorithm"]
+tags: ["computer_science", "algorithm"]
 ---
 
 Binary search is a topic that is easy to explain but hard to implement bug-free. Some example of the most common problems are:

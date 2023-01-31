@@ -16,7 +16,7 @@ Files are organized hierarchically in directories and identified by pathname. Op
 ## Architecture
 A GFS cluster consists of a single master and multiple chunkservers and is accessed by multiple clients. Files are divided into fixed-size chunks. Each chunk is identified by an immutable and globally unique 64 bit chunk handle assigned by the master at the time of chunk creation. Each chunk is replicated, by default three times.
 
-The master maintains all file system metadata, including namespace, access control information, the mapping from files to chunks, and the current locations of chunks. And it controls system-wide activities such as lease management, garbage collection, and chunk migration between chunkservers. It communicates with each chunkserver periodically in HeartBeat messages to give it instrucions and collect state.
+The master maintains all file system metadata, including namespace, access control information, the mapping from files to chunks, and the current locations of chunks. And it controls system-wide activities such as lease management, garbage collection, and chunk migration between chunkservers. It communicates with each chunkserver periodically in HeartBeat messages to give it instructions and collect state.
 
 Client interacts with the master for metadata operations and with the chunkservers for data-bearing communication.
 
