@@ -19,7 +19,7 @@ For arrays, it looks:
 ```
 int l = 0, r = nums.length - 1;
 ```
-LeetCode 35 "Search Insert Position" asks to find an index to insert into the array. It is possible to insert after the last element of the array. Thus the boundary becomes:
+[LeetCode 35 "Search Insert Position"](https://leetcode.com/problems/search-insert-position/) asks to find an index to insert into the array. It is possible to insert after the last element of the array. Thus the boundary becomes:
 ```
 int l = 0, r = nums.length;
 ```
@@ -64,9 +64,9 @@ return l
 
 ### LeetCode questions to practice
 #### Easy
-1.  Search Insert Position
-2.  Sqrt(x)
-3.   First Bad Version
+1. [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
+2. Sqrt(x)
+3. [First Bad Version](https://leetcode.com/problems/first-bad-version)
 
 #### Medium
 33. Search in Rotated Sorted Array
