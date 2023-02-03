@@ -8,13 +8,7 @@ tags: ["computer_science", "distributed_systems"]
 First, learn about CAP theorem. A good read is from [Coda](https://codahale.com/you-cant-sacrifice-partition-tolerance).
 
 ## Single-leader
-All writes are sent to the leader. Leaders send data changes to all of its followers as part of a ***replication log*** or ***change stream***. Followers take the log and apply the writes in the same order as they were processed on the leader.
-
-Good for read-heavy systems.
-
-> In practice, if you use synchronous replication on a database, it usually means that one of the followers is synchronous, and the others are asynchronous.
-
-Built-in feature in many relational databases, such as PostgreSQL, MySQL; and some non-relational databases, such as MongoDB.
+All writes are sent to the leader. Leaders send data changes to all of its followers as part of a **replication log** or **change stream**. Followers take the log and apply the writes in the same order as they were processed on the leader. Good for read-heavy systems. Built-in feature in many relational databases, such as PostgreSQL, MySQL; and some non-relational databases, such as MongoDB.
 
 ### Set up new followers
 1. Take a consistent snapshot of the leader’s database without taking a lock on the entire database. Most databases have this feature, as it is also required for backups.
@@ -27,7 +21,7 @@ Built-in feature in many relational databases, such as PostgreSQL, MySQL; and so
 Find the last transaction that was processed before the fault occurred from its log. Connect to the leader and request changes occurred since the follower was disconnected.
 
 #### Leader failure
-Failover can be either manual or automatic. An automatic process usually consists of the following steps:
+Failover is switching to a redundant or standby machine when the current one fails. Failover can be either manual or automatic. An automatic process usually consists of the following steps:
 - Determine that the leader has failed, usually based on **timeout**.
 - Choose and promote a new leader. This could be done through an **election** process, which is a **consensus** problem.
 - Reconfigure the system to use the new leader. Clients need to send their writes to the new leader, and the other followers need to start consuming data changes from the new leader.
@@ -52,7 +46,7 @@ Use different log formats for replication and for the storage engine. This is ca
 #### Trigger-based replication
 When a data change occurs, execute a trigger that logs this change into a separate table, from which it can be read by an external process. The external process then applies application logic and replicate the data change to another system.
 
-#### Weak consistencies (stronger than eventual consistency)
+### Weak consistencies (stronger than eventual consistency)
 - read-after-write consistency / read-your-write consistency
 - monotonic reads, meaning that if a user makes several reads in sequence, they will not see time go backward. One solution is to make a user always read from the same replica.
 - consistent prefix reads, i.e. no violation of causality.

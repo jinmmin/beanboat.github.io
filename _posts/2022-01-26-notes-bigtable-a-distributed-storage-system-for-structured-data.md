@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Paper notes] Bigtable: A Distributed Storage System for Structured Data"
+title:  "[Paper notes] BigTable: A Distributed Storage System for Structured Data"
 date:   2022-01-26
 tags: ["computer_science", "paper_notes"]
 ---

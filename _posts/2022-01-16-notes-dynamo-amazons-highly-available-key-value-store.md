@@ -9,13 +9,14 @@ tags: ["computer_science", "paper_notes"]
 Highly available, scalable, eventually consistent, “always writable”
 
 ## Techniques
-| Problem                            | Technique                                              | Advantage                                                                                                         |
-| ---------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| Partitioning                       | Consistent Hashing                                     | Incremental Scalability                                                                                           |
-| High Availability for writes       | Vector clocks with reconciliation during reads         | Version size is decoupled from update rates                                                                       |
-| Handling temporary failures        | Sloppy Quorum and hinted handoff                       | Provides high availability and durability guarantee when some of the replicas are not available                   |
-| Recovering from permanent failures | Anti-entropy using Merkle trees                        | Synchronizes divergent replicas in the background                                                                 |
-| Membership and failure detection   | Gossip-based membership protocol and failure detection | Preservers symmetry and avoids having a centralized registry for storing membership and node liveness information |
+
+|                            Problem |                                              Technique |                                                                                                         Advantage |
+| ---------------------------------: | -----------------------------------------------------: | ----------------------------------------------------------------------------------------------------------------: |
+|                       Partitioning |                                     Consistent Hashing |                                                                                                       Incremental |
+|       High Availability for writes |         Vector clocks with reconciliation during reads |                                                                             Version size is decoupled from update |
+|        Handling temporary failures |                       Sloppy Quorum and hinted handoff |                   Provides high availability and durability guarantee when some of the replicas are not available |
+| Recovering from permanent failures |                        Anti-entropy using Merkle trees |                                                                 Synchronizes divergent replicas in the background |
+|   Membership and failure detection | Gossip-based membership protocol and failure detection | Preservers symmetry and avoids having a centralized registry for storing membership and node liveness information |
 
 ## Partitioning
 Dynamo’s partitioning scheme relies on consistent hashing. In consistent hashing, the output range of a hash function is treated as fixed circular space or “ring”. Each node in the system is assigned a random value within this space. The principle advantage of consistent hashing is that departure or arrival of a node only affects its immediate neighbors.
