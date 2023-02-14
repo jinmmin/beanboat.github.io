@@ -14,7 +14,7 @@ I had a [post]({{site.url}}/2022/08/07/paxos-basics/) about the Paxos consensus 
 Raft has the same use case as Paxos, but it is a much easier to understand algorithm. Actually the paper for Raft is named "In search of an understandable consensus algorithm". Paxos is hard because the author gives only the necessary invariants and engineers have a lot of flexibility to do the implementation. Raft, instead, gives a step-by-step guide for how things should be done. When used as is, Raft is definitely simpler. When the use case is more complex and you need to customize certain behaviors, there is no obvious winner.
 
 ## Leader election
-There are generally two approaches to consensus, leader-based and leader-less. For leader-based algorithms, at any given time, there is always one server in change, while others accept its decisions; and clients communicate with the leader. For leader-less algorithms, all servers have equal roles, and clients can contact any server.
+There are generally two approaches to consensus, leader-based and leader-less. For leader-based algorithms, at any given time, there is always one server in charge, while others accept its decisions; and clients communicate with the leader. For leader-less algorithms, all servers have equal roles, and clients can contact any server.
 
 Large-scale systems that have a single cluster leader typically use a separate replicated state machine to manage leader election and store configuration information that must survive leader crashes.
 
