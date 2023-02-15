@@ -1,6 +1,8 @@
 /**
  * Animation for transparent header
  */
+@use "sass:math";
+
 html {
   &[data-header-transparent] {
     header.site-header {
@@ -107,7 +109,7 @@ html {
 
     .site-favicon {
       display: inline-block;
-      height: calc($header-height / 1.5);
+      height: math.div($header-height, 1.5);
       margin-right: 5px;
     }
   }
@@ -667,7 +669,7 @@ html {
   }
 
   @include media-query($on-palm) {
-    height: calc($banner-height / 1.5);
+    height: math.div($banner-height, 1.5);
   }
 }
 
