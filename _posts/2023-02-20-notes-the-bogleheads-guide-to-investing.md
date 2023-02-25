@@ -5,7 +5,7 @@ date:   2023-02-20
 tags: ["finance", "notes"]
 ---
 
-> This post contains my notes for [the Bogleheads' Guide to Investing](). I find the ideas in the book mostly match what I am following and there are also a few new things that I learn.
+> This post contains my notes for [the Bogleheads' Guide to Investing](https://www.goodreads.com/book/show/58218577-the-bogleheads-guide-to-investing). I find the ideas in the book mostly match what I am following and there are also a few new things that I learn.
 
 The basic thrust of `The Bogleheads’ Guide to Investing` is "Choose a sound financial lifestyle. Start early and invest regularly. Know what you’re buying. Preserve your buying power. Keep costs and taxes low. Diversify your stock portfolio [and diversify your stock risk with a bond portfolio]."
 
