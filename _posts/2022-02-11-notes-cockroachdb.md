@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Paper notes] CockroachDB"
-date:   2023-02-11
+date:   2022-02-11
 tags: ["computer_science", "paper_notes"]
 ---
 CockroachDB (CRDB) is a scalable SQL DBMS that supports global OLTP workloads with high availability and strong consistency. It focuses on the below features:

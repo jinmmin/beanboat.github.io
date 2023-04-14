@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Paper notes] RocksDB: Evolution of Development Priorities in a Key-value Store Serving Large-scale Applications"
-date:   2023-02-04
+date:   2022-02-04
 tags: ["computer_science", "paper_notes"]
 ---
 RocksDB is a persistent key-value storage engine created in 2012 by Facebook, based on Google's LevelDB. RocksDB is high customizable, and can be tuned for a wide spectrum of workloads, such as high write throughput, high read throughput, space efficiency, or something in between.

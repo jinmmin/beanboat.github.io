@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Paper notes] The Google File System"
-date:   2023-01-29
+date:   2022-01-29
 tags: ["computer_science", "paper_notes"]
 ---
 
