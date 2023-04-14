@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Paper notes] Cassandra - A Decentralized Structured Storage System"
+title: "Notes on \"Cassandra - A Decentralized Structured Storage System\""
 date:   2022-02-03
 tags: ["computer_science", "paper_notes"]
 ---

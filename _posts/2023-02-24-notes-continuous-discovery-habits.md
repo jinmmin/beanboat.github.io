@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[notes] Continuous Discovery Habits: Discover Products that Create Customer Value and Business Value"
+title: "Notes on \"Continuous Discovery Habits: Discover Products that Create Customer Value and Business Value\""
 date:   2023-02-24
 tags: ["leadership", "notes"]
 ---

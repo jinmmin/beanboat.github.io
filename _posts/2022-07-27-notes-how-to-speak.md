@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[notes] How to Speak"
+title:  "Notes on \"How to Speak\""
 date:   2022-07-27
 tags: ["notes", "communication"]
 ---

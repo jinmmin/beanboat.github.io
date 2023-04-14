@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Paper notes] CockroachDB"
+title: "Notes on \"CockroachDB\""
 date:   2022-02-11
 tags: ["computer_science", "paper_notes"]
 ---

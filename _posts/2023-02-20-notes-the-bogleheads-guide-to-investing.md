@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[notes] the Bogleheads' Guide to Investing"
+title: "Notes on \"the Bogleheads' Guide to Investing\""
 date:   2023-02-20
 tags: ["finance", "notes"]
 ---

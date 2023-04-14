@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Paper notes] Scaling Memcache at Facebook"
+title:  "Notes on \"Scaling Memcache at Facebook\""
 date:   2022-02-03
 tags: ["computer_science", "paper_notes"]
 ---

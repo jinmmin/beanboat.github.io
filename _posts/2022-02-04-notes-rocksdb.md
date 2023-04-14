@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Paper notes] RocksDB: Evolution of Development Priorities in a Key-value Store Serving Large-scale Applications"
+title: "Notes on \"RocksDB: Evolution of Development Priorities in a Key-value Store Serving Large-scale Applications\""
 date:   2022-02-04
 tags: ["computer_science", "paper_notes"]
 ---

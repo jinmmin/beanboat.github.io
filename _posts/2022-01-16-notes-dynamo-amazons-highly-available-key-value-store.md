@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Paper notes] Dynamo: Amazon’s Highly Available Key-value Store"
+title:  "Notes on \"Dynamo: Amazon’s Highly Available Key-value Store\""
 date:   2022-01-16
 tags: ["computer_science", "paper_notes"]
 ---

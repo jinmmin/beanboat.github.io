@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Paper notes] DuckDB: an Embeddable Analytical Database"
+title:  "Notes on \"DuckDB: an Embeddable Analytical Database\""
 date:   2022-03-28
 tags: ["computer_science", "paper_notes"]
 ---
